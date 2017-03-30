@@ -1,6 +1,7 @@
 package com.example.pku_j.software;
 
         import android.content.Intent;
+        import android.content.IntentFilter;
         import android.content.ServiceConnection;
         import android.graphics.BitmapFactory;
         import android.net.Uri;
@@ -38,6 +39,7 @@ package com.example.pku_j.software;
         import android.view.Menu;
 
         import java.util.ArrayList;
+        import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private float startx, starty, endx, endy;
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private Paint paint;
     private ImageView clock;
     private MsgService msgService;
+
     public double calcuAng(float x, float y){
 
         if(x - centerx < 0.001 && x - centerx > -0.001){
@@ -70,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
         if (getSupportActionBar() != null){
             getSupportActionBar().hide();
         }
-        setContentView(R.layout.activity_main);
 
+        setContentView(R.layout.activity_main);
 
         conn = new ServiceConnection() {
             @Override
@@ -94,8 +97,13 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         };
+        Intent intent = null;
+        if(intent == null) {
+            intent = new Intent(this, MsgService.class);
+            Log.e("msgService","failed to open service");
+            startService(intent);
+        }
 
-        Intent intent = new Intent(this, MsgService.class);
         //intent.setAction("com.example.pku_j.software.MsgService");
         //intent.setPackage("com.example.pku_j.software.MsgService"); //指定启动的是那个应用（lq.cn.twoapp）中的Action(b.aidl.DownLoadService)指向的服务组件
         bindService(intent, conn, BIND_AUTO_CREATE);
@@ -113,16 +121,15 @@ public class MainActivity extends AppCompatActivity {
         ImageView dis=(ImageView)(findViewById(R.id.display));
         Bitmap bmp= BitmapFactory.decodeResource(getResources(), R.drawable.abc);
         dis.setImageBitmap(bmp);
-        dis.setOnTouchListener(new View.OnTouchListener() {
+
+        dis.setOnClickListener(new View.OnClickListener(){
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public void onClick(View v) {
                 if(url != null) {
                     Uri uri = Uri.parse(url);
                     Intent it = new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(it);
-
                 }
-                return true;
             }
         });
         menu = (Button)(findViewById(R.id.menu));
@@ -141,7 +148,10 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                             long arg3) {
-                        if(list.get(arg2).equals("exit"))System.exit(0);
+                        if(list.get(arg2).equals("exit")){
+                            unbindService(conn);
+                            System.exit(0);
+                        }
                         System.out.print(arg2);
                     }
                 });
@@ -243,10 +253,30 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
     @Override
     protected void onDestroy() {
         unbindService(conn);
         super.onDestroy();
     }
+
+    public boolean isServiceWork(Context mContext, String serviceName) {
+        boolean isWork = false;
+        ActivityManager myAM = (ActivityManager) mContext
+                .getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningServiceInfo> myList = myAM.getRunningServices(40);
+        if (myList.size() <= 0) {
+            return false;
+        }
+        for (int i = 0; i < myList.size(); i++) {
+            String mName = myList.get(i).service.getClassName().toString();
+            if (mName.equals(serviceName)) {
+                isWork = true;
+                break;
+            }
+        }
+        return isWork;
+    }
+
 
 }

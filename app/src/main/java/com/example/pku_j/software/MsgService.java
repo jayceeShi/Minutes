@@ -6,9 +6,13 @@ package com.example.pku_j.software;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Binder;
 import android.os.IBinder;
+import android.os.StrictMode;
 import android.util.Log;
+
+import static android.os.SystemClock.sleep;
 
 public class MsgService extends Service {
 
@@ -16,6 +20,19 @@ public class MsgService extends Service {
     private int time = 0;
 
     private String url = null;
+
+    @Override
+    public void onCreate() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_TIME_TICK);
+        BroadcastRec broadcastReceiver = new BroadcastRec();
+        registerReceiver(broadcastReceiver, filter);
+        for (int i = 0; i < 3; i++) {
+            sleep(10);
+            Log.e("trace~", "coming back");
+        }
+    }
+
     public int getProgress() {
         return progress;
     }
@@ -39,20 +56,15 @@ public class MsgService extends Service {
             @Override
             public void run() {
                 progress = 0;
-                for(int i = 0; i < 10; i++){
-                    try{
-                        Thread.sleep(100);
 
-                    }catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-                }
                 setUrl();
                 if(onProgressListener != null){
                     onProgressListener.onProgress(progress);
                 }
+
             }
+
+
         }).start();
     }
     public void setUrl(){
@@ -65,11 +77,6 @@ public class MsgService extends Service {
     public int setTime(int t){
         time = t;
         return 1;
-    }
-    @Override
-    public void onCreate(){
-        super.onCreate();
-        Log.e("msgservice","Come Back Yah!");
     }
 
     /**
