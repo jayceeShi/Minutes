@@ -10,15 +10,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2fd21b7f-684a-4c8c-8404-cc48c9e93b9c" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/pku_j/software/Service.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/pku_j/software/MsgService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/fileHashes.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/fileSnapshots.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.lock" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.3/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/3.3/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.3/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" afterPath="$PROJECT_DIR$/.gradle/3.3/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.3/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.bin" afterPath="$PROJECT_DIR$/.gradle/3.3/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.3/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" afterPath="$PROJECT_DIR$/.gradle/3.3/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/abc.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/abc.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/capture.PNG" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/capture.PNG" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/killtime.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/killtime.png" />
@@ -33,97 +24,8 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-41-57-742.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-41-57-742.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-42-03-456.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-42-03-456.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-44-30-639.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-44-30-639.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-45-31-601.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-45-31-601.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-46-55-697.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-46-55-697.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-48-08-017.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-48-08-017.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-48-27-250.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-48-27-250.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-49-35-032.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-49-35-032.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-49-59-346.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-49-59-346.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-50-12-750.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-50-12-750.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-50-34-354.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-50-34-354.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-50-36-625.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-50-36-625.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-50-40-448.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-50-40-448.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-51-49-763.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-51-49-763.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-52-33-363.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-52-33-363.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-53-26-512.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-53-26-512.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-53-38-476.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-53-38-476.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-54-51-847.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-54-51-847.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-55-14-783.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-55-14-783.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-55-30-480.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-55-30-480.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-55-44-109.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-55-44-109.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-56-29-731.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-16-56-29-731.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-05-24-492.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-05-24-492.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-05-58-595.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-05-58-595.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-06-39-411.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-06-39-411.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-07-39-531.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-07-39-531.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-15-16-222.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-15-16-222.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-15-23-956.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-15-23-956.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-18-30-884.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-18-30-884.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-23-57-414.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-23-57-414.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-26-50-429.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-26-50-429.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-32-25-967.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-32-25-967.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-32-35-585.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-32-35-585.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-33-50-278.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-33-50-278.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-36-13-549.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-36-13-549.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-37-34-511.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-37-34-511.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-37-59-571.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-37-59-571.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-38-17-946.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-38-17-946.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-38-54-646.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-17-38-54-646.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-19-57-09-371.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-19-57-09-371.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-19-57-18-443.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-19-57-18-443.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-19-57-54-622.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-19-57-54-622.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-19-57-57-053.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-19-57-57-053.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-19-58-06-802.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-28-19-58-06-802.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-30-11-36-44-287.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-30-11-36-44-287.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-30-11-37-04-706.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-30-11-37-04-706.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-30-11-49-47-653.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-30-11-49-47-653.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/android-profile/profile-2017-03-30-11-49-58-512.rawproto" afterPath="$PROJECT_DIR$/build/android-profile/profile-2017-03-30-11-49-58-512.rawproto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/generated/mockable-android-25.jar" afterPath="$PROJECT_DIR$/build/generated/mockable-android-25.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" afterPath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/gradle.xml" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/animated_vector_drawable_25_3_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/animated_vector_drawable_25_3_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/appcompat_v7_25_3_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/appcompat_v7_25_3_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/constraint_layout_1_0_2.xml" afterPath="$PROJECT_DIR$/.idea/libraries/constraint_layout_1_0_2.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/constraint_layout_solver_1_0_2.xml" afterPath="$PROJECT_DIR$/.idea/libraries/constraint_layout_solver_1_0_2.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/espresso_core_2_2_2.xml" afterPath="$PROJECT_DIR$/.idea/libraries/espresso_core_2_2_2.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/espresso_idling_resource_2_2_2.xml" afterPath="$PROJECT_DIR$/.idea/libraries/espresso_idling_resource_2_2_2.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/exposed_instrumentation_api_publish_0_5.xml" afterPath="$PROJECT_DIR$/.idea/libraries/exposed_instrumentation_api_publish_0_5.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/hamcrest_core_1_3.xml" afterPath="$PROJECT_DIR$/.idea/libraries/hamcrest_core_1_3.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/hamcrest_integration_1_3.xml" afterPath="$PROJECT_DIR$/.idea/libraries/hamcrest_integration_1_3.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/hamcrest_library_1_3.xml" afterPath="$PROJECT_DIR$/.idea/libraries/hamcrest_library_1_3.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/javawriter_2_1_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/javawriter_2_1_1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/javax_annotation_api_1_2.xml" afterPath="$PROJECT_DIR$/.idea/libraries/javax_annotation_api_1_2.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/javax_inject_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/javax_inject_1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/jsr305_2_0_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/jsr305_2_0_1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/junit_4_12.xml" afterPath="$PROJECT_DIR$/.idea/libraries/junit_4_12.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/rules_0_5.xml" afterPath="$PROJECT_DIR$/.idea/libraries/rules_0_5.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/runner_0_5.xml" afterPath="$PROJECT_DIR$/.idea/libraries/runner_0_5.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/support_annotations_25_3_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/support_annotations_25_3_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/support_compat_25_3_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/support_compat_25_3_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/support_core_ui_25_3_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/support_core_ui_25_3_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/support_core_utils_25_3_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/support_core_utils_25_3_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/support_fragment_25_3_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/support_fragment_25_3_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/support_media_compat_25_3_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/support_media_compat_25_3_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/support_v4_25_3_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/support_v4_25_3_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/support_vector_drawable_25_3_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/support_vector_drawable_25_3_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Software.iml" afterPath="$PROJECT_DIR$/Software.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/.gitignore" afterPath="$PROJECT_DIR$/app/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/proguard-rules.pro" afterPath="$PROJECT_DIR$/app/proguard-rules.pro" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/androidTest/java/com/example/pku_j/software/ExampleInstrumentedTest.java" afterPath="$PROJECT_DIR$/app/src/androidTest/java/com/example/pku_j/software/ExampleInstrumentedTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/pku_j/software/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/pku_j/software/MainActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/popupwindow_bg.xml" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/popupwindow_bg.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/popupwindow.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/popupwindow.xml" />
@@ -131,15 +33,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/style.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/style.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/test/java/com/example/pku_j/software/ExampleUnitTest.java" afterPath="$PROJECT_DIR$/app/src/test/java/com/example/pku_j/software/ExampleUnitTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gradle.properties" afterPath="$PROJECT_DIR$/gradle.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gradlew" afterPath="$PROJECT_DIR$/gradlew" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gradlew.bat" afterPath="$PROJECT_DIR$/gradlew.bat" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/local.properties" afterPath="$PROJECT_DIR$/local.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/settings.gradle" afterPath="$PROJECT_DIR$/settings.gradle" />
     </list>
     <ignored path="Software.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -2587,6 +2480,14 @@
       <option name="presentableId" value="Default" />
       <updated>1490690515175</updated>
     </task>
+    <task id="LOCAL-00001" summary="add service">
+      <created>1490861571310</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1490861571310</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -2665,7 +2566,8 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <MESSAGE value="add service" />
+    <option name="LAST_COMMIT_MESSAGE" value="add service" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
