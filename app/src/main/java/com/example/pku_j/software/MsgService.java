@@ -40,7 +40,7 @@ public class MsgService extends Service {
                 progress = 0;
                 for(int i = 0; i < time; i++){
                     try{
-                        Thread.sleep(10);
+                        Thread.sleep(100);
 
                     }catch (InterruptedException e) {
                         e.printStackTrace();
@@ -48,7 +48,9 @@ public class MsgService extends Service {
 
                 }
                 setUrl();
-
+                if(onProgressListener != null){
+                    onProgressListener.onProgress(progress);
+                }
             }
         }).start();
     }

@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private Button menu;
     private ArrayList<String> list = new ArrayList<String>();
-
+    private String url;
     ServiceConnection conn;
 
     @Override
@@ -83,6 +83,15 @@ public class MainActivity extends AppCompatActivity {
             public void onServiceConnected(ComponentName name, IBinder service) {
                 //返回一个MsgService对象
                 msgService = ((MsgService.MsgBinder)service).getService();
+                msgService.setOnProgressListener(new MsgService.OnProgressListener() {
+
+                    @Override
+                    public void onProgress(int progress) {
+                        System.out.print(progress);
+                        if(progress == 1)
+                            url = msgService.getUrl();
+                    }
+                });
             }
         };
 
@@ -101,6 +110,21 @@ public class MainActivity extends AppCompatActivity {
 
         clock.setOnTouchListener(new PicOnTouchListener());
 
+        ImageView dis=(ImageView)(findViewById(R.id.display));
+        Bitmap bmp= BitmapFactory.decodeResource(getResources(), R.drawable.abc);
+        dis.setImageBitmap(bmp);
+        dis.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(url != null) {
+                    Uri uri = Uri.parse(url);
+                    Intent it = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(it);
+
+                }
+                return true;
+            }
+        });
         menu = (Button)(findViewById(R.id.menu));
         //spin = (Spinner)(findViewById(R.id.spinner));
         menu.setOnTouchListener(new View.OnTouchListener() {
@@ -216,20 +240,7 @@ public class MainActivity extends AppCompatActivity {
             final String url;
             msgService.setTime(time);
             msgService.startDownLoad();
-            while(msgService.getProgress() != 1)continue;
-            ImageView dis=(ImageView)(findViewById(R.id.display));
-            Bitmap bmp= BitmapFactory.decodeResource(getResources(), R.drawable.abc);
-            dis.setImageBitmap(bmp);
-            url = msgService.getUrl();
-            dis.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    Uri uri = Uri.parse(url);
-                    Intent it = new Intent(Intent.ACTION_VIEW, uri);
-                    startActivity(it);
-                    return true;
-                }
-            });
+
         }
     }
     @Override
