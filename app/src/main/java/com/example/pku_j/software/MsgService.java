@@ -8,6 +8,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
+import android.util.Log;
 
 public class MsgService extends Service {
 
@@ -38,7 +39,7 @@ public class MsgService extends Service {
             @Override
             public void run() {
                 progress = 0;
-                for(int i = 0; i < time; i++){
+                for(int i = 0; i < 10; i++){
                     try{
                         Thread.sleep(100);
 
@@ -64,6 +65,11 @@ public class MsgService extends Service {
     public int setTime(int t){
         time = t;
         return 1;
+    }
+    @Override
+    public void onCreate(){
+        super.onCreate();
+        Log.e("msgservice","Come Back Yah!");
     }
 
     /**
