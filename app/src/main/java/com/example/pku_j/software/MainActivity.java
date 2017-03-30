@@ -1,8 +1,10 @@
 package com.example.pku_j.software;
 
         import android.content.Intent;
+        import android.content.ServiceConnection;
         import android.graphics.BitmapFactory;
         import android.net.Uri;
+        import android.os.IBinder;
         import android.widget.AdapterView;
         import android.widget.Button;
         import android.graphics.Bitmap;
@@ -45,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private Canvas canvas;
     private Paint paint;
     private ImageView clock;
-
+    private MsgService msgService;
     public double calcuAng(float x, float y){
 
         if(x - centerx < 0.001 && x - centerx > -0.001){
@@ -58,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
     }
     private Button menu;
     private ArrayList<String> list = new ArrayList<String>();
+
+    ServiceConnection conn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +71,27 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
         setContentView(R.layout.activity_main);
+
+
+        conn = new ServiceConnection() {
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+
+            }
+
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                //返回一个MsgService对象
+                msgService = ((MsgService.MsgBinder)service).getService();
+            }
+        };
+
+        Intent intent = new Intent(this, MsgService.class);
+        //intent.setAction("com.example.pku_j.software.MsgService");
+        //intent.setPackage("com.example.pku_j.software.MsgService"); //指定启动的是那个应用（lq.cn.twoapp）中的Action(b.aidl.DownLoadService)指向的服务组件
+        bindService(intent, conn, BIND_AUTO_CREATE);
+
+
 
         clock = (ImageView)findViewById(R.id.clock);
         list.add("exit");
@@ -106,6 +132,8 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+
     }
 
 
@@ -185,13 +213,18 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void passAng(int time){
+            final String url;
+            msgService.setTime(time);
+            msgService.startDownLoad();
+            while(msgService.getProgress() != 1)continue;
             ImageView dis=(ImageView)(findViewById(R.id.display));
             Bitmap bmp= BitmapFactory.decodeResource(getResources(), R.drawable.abc);
             dis.setImageBitmap(bmp);
+            url = msgService.getUrl();
             dis.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    Uri uri = Uri.parse("http://www.baidu.com");
+                    Uri uri = Uri.parse(url);
                     Intent it = new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(it);
                     return true;
@@ -199,4 +232,10 @@ public class MainActivity extends AppCompatActivity {
             });
         }
     }
+    @Override
+    protected void onDestroy() {
+        unbindService(conn);
+        super.onDestroy();
+    }
+
 }
