@@ -23,12 +23,12 @@ public class MsgService extends Service {
 
     @Override
     public void onCreate() {
+        progress = 0;
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_TIME_TICK);
         BroadcastRec broadcastReceiver = new BroadcastRec();
         registerReceiver(broadcastReceiver, filter);
         for (int i = 0; i < 3; i++) {
-            sleep(10);
             Log.e("trace~", "coming back");
         }
     }
@@ -69,7 +69,7 @@ public class MsgService extends Service {
     }
     public void setUrl(){
         progress = 1;
-        url = "http://www.baidu.com";
+        url = "http://www.jianshu.com/p/da8a68354caa";
     }
     public String getUrl(){
         return url;
@@ -78,7 +78,10 @@ public class MsgService extends Service {
         time = t;
         return 1;
     }
+    public void resetpro(){
+        progress = 0;
 
+    }
     /**
      * 返回一个Binder对象
      */

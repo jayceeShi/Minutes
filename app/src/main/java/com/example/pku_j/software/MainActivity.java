@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
                 //返回一个MsgService对象
+
                 msgService = ((MsgService.MsgBinder)service).getService();
                 msgService.setOnProgressListener(new MsgService.OnProgressListener() {
 
@@ -93,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
                         System.out.print(progress);
                         if(progress == 1)
                             url = msgService.getUrl();
+                        msgService.resetpro();
                     }
                 });
             }
@@ -121,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
         ImageView dis=(ImageView)(findViewById(R.id.display));
         Bitmap bmp= BitmapFactory.decodeResource(getResources(), R.drawable.abc);
         dis.setImageBitmap(bmp);
-
         dis.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
