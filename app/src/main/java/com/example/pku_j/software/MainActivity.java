@@ -40,6 +40,7 @@ package com.example.pku_j.software;
 
         import java.util.ArrayList;
         import java.util.List;
+        import android.os.Handler;
 
 public class MainActivity extends AppCompatActivity {
     private float startx, starty, endx, endy;
@@ -64,51 +65,39 @@ public class MainActivity extends AppCompatActivity {
     private Button menu;
     private ArrayList<String> list = new ArrayList<String>();
     private String url;
+    private boolean changeFlag = false;
+    private ImageView dis;
+    private Bitmap bmp;
+    private TextView name;
+    private Handler handler=null;
     ServiceConnection conn;
 
+    Runnable   runnableUi=new  Runnable(){
+        @Override
+        public void run() {
+            ImageView logo = (ImageView)findViewById(R.id.logo);
+
+            //更新界面
+            dis = (ImageView) findViewById(R.id.display);
+            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.renyue);
+            TextView name = (TextView) findViewById(R.id.Name);
+            name.setText("人月神话笔记");
+            dis.setImageBitmap(bmp);
+            changeFlag = false;
+        }
+
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getSupportActionBar() != null){
-            getSupportActionBar().hide();
-        }
+        //if (getSupportActionBar() != null){
+        //    getSupportActionBar().hide();
+        //}
 
         setContentView(R.layout.activity_main);
 
-        conn = new ServiceConnection() {
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-
-            }
-
-            @Override
-            public void onServiceConnected(ComponentName name, IBinder service) {
-                //返回一个MsgService对象
-
-                msgService = ((MsgService.MsgBinder)service).getService();
-                msgService.setOnProgressListener(new MsgService.OnProgressListener() {
-
-                    @Override
-                    public void onProgress(int progress) {
-                        System.out.print(progress);
-                        if(progress == 1)
-                            url = msgService.getUrl();
-                        msgService.resetpro();
-                    }
-                });
-            }
-        };
-        Intent intent = null;
-        if(intent == null) {
-            intent = new Intent(this, MsgService.class);
-            Log.e("msgService","failed to open service");
-            startService(intent);
-        }
-
-        //intent.setAction("com.example.pku_j.software.MsgService");
-        //intent.setPackage("com.example.pku_j.software.MsgService"); //指定启动的是那个应用（lq.cn.twoapp）中的Action(b.aidl.DownLoadService)指向的服务组件
-        bindService(intent, conn, BIND_AUTO_CREATE);
+        handler=new Handler();
 
 
 
@@ -120,12 +109,56 @@ public class MainActivity extends AppCompatActivity {
 
         clock.setOnTouchListener(new PicOnTouchListener());
 
-        ImageView dis=(ImageView)(findViewById(R.id.display));
-        Bitmap bmp= BitmapFactory.decodeResource(getResources(), R.drawable.abc);
-        dis.setImageBitmap(bmp);
+        name = (TextView)findViewById(R.id.Name);
+        name.setText("等待推荐中");
+        Log.v("trace~",""+this.getWindowManager().getDefaultDisplay().getHeight());
+        dis=(ImageView)(findViewById(R.id.display));
+        bmp= BitmapFactory.decodeResource(getResources(), R.drawable.renyue);
+
+
+        conn = new ServiceConnection() {
+            @Override
+            public void onServiceDisconnected(ComponentName namec) {
+
+            }
+
+            @Override
+            public void onServiceConnected(ComponentName namec, IBinder service) {
+                //返回一个MsgService对象
+
+                msgService = ((MsgService.MsgBinder)service).getService();
+                msgService.setOnProgressListener(new MsgService.OnProgressListener() {
+
+                    @Override
+                    public void onProgress(int progress) {
+                        System.out.print(progress);
+                        if(progress == 1) {
+                            url = msgService.getUrl();
+                            handler.post(runnableUi);
+                        }
+                        msgService.resetpro();
+                    }
+                });
+            }
+        };
+
+        Intent intent = null;
+        if(intent == null) {
+            intent = new Intent(this, MsgService.class);
+            Log.e("msgService","failed to open service");
+            startService(intent);
+        }
+
+        //intent.setAction("com.example.pku_j.software.MsgService");
+        //intent.setPackage("com.example.pku_j.software.MsgService"); //指定启动的是那个应用（lq.cn.twoapp）中的Action(b.aidl.DownLoadService)指向的服务组件
+        bindService(intent, conn, BIND_AUTO_CREATE);
+        dis.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        //dis.setImageBitmap(bmp);
         dis.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                ImageView dis=(ImageView)(findViewById(R.id.display));
+
                 if(url != null) {
                     Uri uri = Uri.parse(url);
                     Intent it = new Intent(Intent.ACTION_VIEW, uri);
@@ -133,6 +166,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        ImageView up = (ImageView)findViewById(R.id.up);
+
+
         menu = (Button)(findViewById(R.id.menu));
         //spin = (Spinner)(findViewById(R.id.spinner));
         menu.setOnTouchListener(new View.OnTouchListener() {
@@ -170,11 +206,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
-
-
-
-
 
     public int calcuTime(double angle){
         angle = -angle;
@@ -281,3 +312,5 @@ public class MainActivity extends AppCompatActivity {
 
 
 }
+
+
