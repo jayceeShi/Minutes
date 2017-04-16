@@ -18,11 +18,13 @@ package com.example.pku_j.software;
         import android.view.Window;
         import android.view.WindowManager;
         import android.widget.EditText;
+        import android.widget.ImageButton;
         import android.widget.ImageView;
         import android.content.Context;
         import android.graphics.Canvas;
         import android.graphics.Color;
         import android.graphics.Paint;
+        import android.widget.SlidingDrawer;
         import android.widget.Spinner;
         import android.widget.TextView;
         import android.widget.ListView;
@@ -70,8 +72,9 @@ public class MainActivity extends AppCompatActivity {
     private Bitmap bmp;
     private TextView name;
     private Handler handler=null;
+    private ImageButton hanImg;
     ServiceConnection conn;
-
+    private SlidingDrawer sd;
     Runnable   runnableUi=new  Runnable(){
         @Override
         public void run() {
@@ -95,13 +98,15 @@ public class MainActivity extends AppCompatActivity {
         //    getSupportActionBar().hide();
         //}
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.recommendlay);
 
         handler=new Handler();
 
 
+        sd = (SlidingDrawer)findViewById(R.id.sliding);
 
         clock = (ImageView)findViewById(R.id.clock);
+
         list.add("exit");
         paint = new Paint();
         paint.setStrokeWidth(1);
@@ -111,6 +116,9 @@ public class MainActivity extends AppCompatActivity {
 
         name = (TextView)findViewById(R.id.Name);
         name.setText("等待推荐中");
+        TextView hhh = (TextView)findViewById(R.id.rec1);
+        hhh.setText("I do not know");
+
         Log.v("trace~",""+this.getWindowManager().getDefaultDisplay().getHeight());
         dis=(ImageView)(findViewById(R.id.display));
         bmp= BitmapFactory.decodeResource(getResources(), R.drawable.renyue);
@@ -309,8 +317,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return isWork;
     }
-
-
 }
+
 
 
