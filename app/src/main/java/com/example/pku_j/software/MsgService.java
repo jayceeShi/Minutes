@@ -261,20 +261,13 @@ public class MsgService extends Service {
                     onProgressListener.onProgress(progress);
                 }
                 */
-
-                while (true) {
-                    Log.e("trace~", "run: Work now!");
-                    sleep(2000);
-                }
+                progress = 0;
+                getRecommendation(time);
 
             }
         }).start();
     }
 
-    public void setUrl() {
-        progress = 1;
-        url = "http://www.jianshu.com/p/da8a68354caa";
-    }
 
     public String getUrl() {
         return url;
@@ -283,10 +276,6 @@ public class MsgService extends Service {
     public int setTime(int t) {
         time = t;
         return 1;
-    }
-
-    public void resetpro() {
-        progress = 0;
     }
 
     /**
