@@ -5,11 +5,15 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.IBinder;
 import android.support.v4.app.ActivityCompat;
+import android.text.Layout;
+import android.text.StaticLayout;
+import android.text.TextPaint;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.graphics.Bitmap;
@@ -37,7 +41,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 import android.os.Handler;
-
+import android.view.ViewGroup.LayoutParams;
 import com.yancloud.android.reflection.get.YanCloudGet;
 
 
@@ -129,7 +133,23 @@ public class MainActivity extends AppCompatActivity {
 
 
         sd = (SlidingDrawer)findViewById(R.id.sliding);
+        final ImageButton imbg = (ImageButton)findViewById(R.id.handle);
+        sd.setOnDrawerOpenListener(new SlidingDrawer.OnDrawerOpenListener()
+        {
+            @Override
+            public void onDrawerOpened() {
+                imbg.getBackground().setAlpha(0);
+            }
 
+        });
+
+        sd.setOnDrawerCloseListener(new SlidingDrawer.OnDrawerCloseListener() {
+                                        @Override
+                                        public void onDrawerClosed() {
+                                            imbg.getBackground().setAlpha(1);
+                                            imbg.setImageResource(R.drawable.uprow);
+                                        }
+                                    });
         clock = (ImageView)findViewById(R.id.clock);
 
         list.add("exit");
@@ -141,13 +161,47 @@ public class MainActivity extends AppCompatActivity {
 
         name = (TextView)findViewById(R.id.Name);
         name.setText("等待推荐中");
-        TextView hhh = (TextView)findViewById(R.id.recTxt1);
-        hhh.setText("I do not know");
 
         Log.v("trace~",""+this.getWindowManager().getDefaultDisplay().getHeight());
         dis=(ImageView)(findViewById(R.id.display));
         bmp= BitmapFactory.decodeResource(getResources(), R.drawable.renyue);
 
+
+        Bitmap lot1 = BitmapFactory.decodeResource(getResources(), R.drawable.keep);
+
+        ImageView tempDis = (ImageView)findViewById(R.id.rec2);
+        LayoutParams para = tempDis.getLayoutParams();
+
+
+        int height=para.height;
+
+        int width=para.width;
+
+        Bitmap icon = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888); //建立一个空的图画板
+        Canvas canvas = new Canvas(icon);//初始化画布绘制的图像到icon上
+
+        Paint photoPaint = new Paint(); //建立画笔
+        Paint photoPaint2 = new Paint();
+        photoPaint2.setTextSize(50);
+        //paint.setTypeface();
+        Rect dst = new Rect(30, 15, height-20, height-25);//创建一个指定的新矩形的坐标
+        canvas.drawBitmap(lot1, null, dst, photoPaint);//将photo 缩放或则扩大到 dst使用的填充区photoPain
+
+        //canvas.drawText("new recommendation to do ahhhhhhhhhh", height, height/2, photoPaint2);//将photo 缩放或则扩大到 dst使用的填充区photoPaint
+
+        canvas.drawText("time",60,height-10,photoPaint);
+
+        TextPaint textPaint = new TextPaint();
+        //textPaint.setARGB(0xFF, 0xFF, 0, 0);
+        textPaint.setTextSize(40.0F);
+        String aboutTheGame = "new recommendation to do ahhhhhhhhhh ";
+/** * aboutTheGame ：要 绘制 的 字符串 ,textPaint(TextPaint 类型)设置了字符串格式及属性 的画笔,240为设置 画多宽后 换行，后面的参数是对齐方式... */
+        StaticLayout layout = new StaticLayout(aboutTheGame,textPaint,width-height-10, Layout.Alignment.ALIGN_NORMAL,1.0F,0.0F,true);
+//从 (20,80)的位置开始绘制
+        canvas.translate(height,20);
+        canvas.save(Canvas.ALL_SAVE_FLAG);
+        layout.draw(canvas);
+        tempDis.setImageBitmap(icon);
 
         conn = new ServiceConnection() {
             @Override
@@ -295,13 +349,14 @@ public class MainActivity extends AppCompatActivity {
                     clock.setImageBitmap(baseBitmap);
                     clock.invalidate();
 
-                    ((TextView)(findViewById(R.id.Time))).setText("00:" + String.format("%02d", calcuTime(Math.toDegrees(angle))));
+                    ((TextView)(findViewById(R.id.Time))).setText("00:" + String.format("%02d", 2*calcuTime(Math.toDegrees(angle))));
 
                     break;
                 case MotionEvent.ACTION_UP:
 
-                    int time = calcuTime(Math.toDegrees(angle));
+                    int time = 2*calcuTime(Math.toDegrees(angle));
                     timeT = time;
+                    ((TextView)(findViewById(R.id.TTime))).setText("00:" + String.format("%02d", timeT));
                     passAng(time);
 
                     break;

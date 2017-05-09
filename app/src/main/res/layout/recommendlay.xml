@@ -127,7 +127,8 @@
         android:layout_height="match_parent"
         android:content="@+id/content"
         android:handle="@+id/handle"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_below="@+id/menu">
 
         <ImageButton
             android:id="@id/handle"
@@ -159,10 +160,9 @@
 
             <TextView
                 android:id="@+id/TTime"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_width="375dp"
+                android:layout_height="50dp"
                 android:layout_gravity="top|center_horizontal"
-                android:layout_marginTop="20dp"
                 android:background="@drawable/clock_bkg"
                 android:gravity="center"
 
@@ -178,72 +178,68 @@
 
             <ImageView
                 android:id="@+id/rec1"
-                android:layout_width="match_parent"
-                android:layout_height="65dp"
+                android:layout_width="375dp"
+                android:layout_height="70dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/content_bkg"
                 android:gravity="center"
                 android:textAlignment="center"
                 android:textSize="34sp" />
 
-            <TextView
-                android:id="@+id/recTxt1"
-                android:layout_width="50dp"
-                android:layout_height="15dp"/>
-
             <ImageView
                 android:id="@+id/rec2"
-                android:layout_width="match_parent"
-                android:layout_height="65dp"
-                app:srcCompat="@drawable/content_bkg" />
-
-            <TextView
-                android:id="@+id/recTxt2"
-                android:layout_width="50dp"
-                android:layout_height="15dp" />
+                android:layout_width="375dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/content_bkg"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textSize="34sp" />
 
             <ImageView
                 android:id="@+id/rec3"
-                android:layout_width="match_parent"
-                android:layout_height="65dp"
-                app:srcCompat="@drawable/content_bkg" />
-
-            <TextView
-                android:id="@+id/recTxt3"
-                android:layout_width="50dp"
-                android:layout_height="15dp"/>
+                android:layout_width="375dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/content_bkg"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textSize="34sp" />
 
             <ImageView
                 android:id="@+id/rec4"
-                android:layout_width="match_parent"
-                android:layout_height="65dp"
-                app:srcCompat="@drawable/content_bkg" />
-            <TextView
-                android:id="@+id/recTxt4"
-                android:layout_width="50dp"
-                android:layout_height="15dp" />
+                android:layout_width="375dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/content_bkg"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textSize="34sp" />
 
             <ImageView
                 android:id="@+id/rec5"
-                android:layout_width="match_parent"
-                android:layout_height="65dp"
-                app:srcCompat="@drawable/content_bkg" />
-
-            <TextView
-                android:id="@+id/recTxt5"
-                android:layout_width="50dp"
-                android:layout_height="15dp" />
+                android:layout_width="375dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/content_bkg"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textSize="34sp" />
 
             <ImageView
                 android:id="@+id/rec6"
-                android:layout_width="match_parent"
-                android:layout_height="65dp"
-                app:srcCompat="@drawable/content_bkg" />
-
-            <TextView
-                android:id="@+id/recTxt6"
-                android:layout_width="50dp"
-                android:layout_height="15dp"/>
+                android:layout_width="375dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/content_bkg"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textSize="34sp" />
 
         </LinearLayout>
     </SlidingDrawer>
