@@ -3,7 +3,9 @@
 // (powered by Fernflower decompiler)
 //
 
-package com.example.pku_j.software;
+package com.example.pku_j.software.yancloud;
+
+import com.example.pku_j.software.yancloud.GetMessage;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;

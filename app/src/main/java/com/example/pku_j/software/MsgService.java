@@ -34,13 +34,14 @@ public class MsgService extends Service {
 
     private int progress = 0;
     private int time = 0;
-
+    private Recommendation returnRec = null;
     private String url = null;
 
     private Thread _backThread = null;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.v("trace~","I am back!");
         progress = 0;
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_TIME_TICK);
@@ -166,8 +167,8 @@ public class MsgService extends Service {
             Log.e("trace~", ex.getMessage());
         }
 
-        Recommendation rec = getRecommendation(34);
-        Log.e("trace~", String.format("Recommend: %s(%d min)", rec.Source, rec.Period));
+        //Recommendation rec = getRecommendation(34);
+        //Log.e("trace~", String.format("Recommend: %s(%d min)", rec.Source, rec.Period));
     }
 
 
@@ -252,23 +253,26 @@ public class MsgService extends Service {
     public void startDownLoad() {
         new Thread(new Runnable() {
             @Override
-            public void run() {
+            public void run(){
 
-                /*
-                progress = 0;
-                setUrl();
+
+                returnRec = getRecommendation(time);
+                returnRec.getThumbnail();
+
+                Log.v("trace~","" + returnRec.Period);
+                progress = 1;
                 if (onProgressListener != null) {
                     onProgressListener.onProgress(progress);
                 }
-                */
-                progress = 0;
-                getRecommendation(time);
-
             }
         }).start();
     }
-
-
+    public Recommendation getRec(){
+        return returnRec;
+    }
+    public void resetpro(){
+        progress = 0;
+    }
     public String getUrl() {
         return url;
     }

@@ -50,7 +50,9 @@ public class MainActivity extends AppCompatActivity {
     private Paint paint;
     private ImageView clock;
     private MsgService msgService;
-
+    private int timeT;
+    private int canUrl = 0;
+    private Recommendation recRec = null;
     public double calcuAng(float x, float y){
 
         if(x - centerx < 0.001 && x - centerx > -0.001){
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> list = new ArrayList<String>();
     private String url;
     private boolean changeFlag = false;
-    private ImageView dis;
+    public ImageView dis;
     private Bitmap bmp;
     private TextView name;
     private Handler handler=null;
@@ -75,15 +77,39 @@ public class MainActivity extends AppCompatActivity {
     Runnable   runnableUi=new  Runnable(){
         @Override
         public void run() {
+            url = recRec.DeepLink;
+            Log.v("trace~",url);
+            canUrl = 1;
             ImageView logo = (ImageView)findViewById(R.id.logo);
+            TextView txt = (TextView)findViewById(R.id.Rtime);
+            Bitmap logo2;
+            txt.setText("00:" + String.format("%02d", recRec.Period));
+            TextView title = (TextView)findViewById(R.id.Name);
+            title.setText(recRec.Title);
 
-            //更新界面
-            dis = (ImageView) findViewById(R.id.display);
-            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.renyue);
-            TextView name = (TextView) findViewById(R.id.Name);
-            name.setText("人月神话笔记");
-            dis.setImageBitmap(bmp);
-            changeFlag = false;
+            switch(recRec.Source){
+                case "keep":
+                    //dis.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.shopping));
+                    logo.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.keep));break;
+                case "jd":
+                    //dis.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.shopping));
+                    logo.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.shopping_icon));break;
+                case "youku":
+                    //dis.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.video));
+                    logo.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.video_icon));break;
+                case "zhihu":
+                    //dis.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.video));
+                    logo.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.news_icon));break;
+                case "toutiao":
+                    //dis.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.video));
+                    logo.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.news_icon));break;
+                default:
+                    //dis.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.video));
+                    logo.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.keep));break;
+            }
+            logo2 = recRec.getThumbnail();
+            //if(logo2 != null)
+                dis.setImageBitmap(logo2);
         }
 
     };
@@ -115,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
         name = (TextView)findViewById(R.id.Name);
         name.setText("等待推荐中");
-        TextView hhh = (TextView)findViewById(R.id.rec1);
+        TextView hhh = (TextView)findViewById(R.id.recTxt1);
         hhh.setText("I do not know");
 
         Log.v("trace~",""+this.getWindowManager().getDefaultDisplay().getHeight());
@@ -138,9 +164,9 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onProgress(int progress) {
-                        System.out.print(progress);
                         if(progress == 1) {
-                            url = msgService.getUrl();
+                            Log.v("trace~","have got recommendation");
+                            recRec = msgService.getRec();
                             handler.post(runnableUi);
                         }
                         msgService.resetpro();
@@ -164,9 +190,8 @@ public class MainActivity extends AppCompatActivity {
         dis.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                ImageView dis=(ImageView)(findViewById(R.id.display));
 
-                if(url != null) {
+                if(canUrl != 0) {
                     Uri uri = Uri.parse(url);
                     Intent it = new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(it);
@@ -276,7 +301,9 @@ public class MainActivity extends AppCompatActivity {
                 case MotionEvent.ACTION_UP:
 
                     int time = calcuTime(Math.toDegrees(angle));
+                    timeT = time;
                     passAng(time);
+
                     break;
                 default:
                     break;
@@ -286,7 +313,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void passAng(int time){
-            final String url;
+            canUrl = 0;
             msgService.setTime(time);
             msgService.startDownLoad();
 

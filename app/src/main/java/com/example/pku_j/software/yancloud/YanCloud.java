@@ -3,10 +3,11 @@
 // (powered by Fernflower decompiler)
 //
 
-package com.example.pku_j.software;
+package com.example.pku_j.software.yancloud;
 
 import android.content.Context;
 
+import com.example.pku_j.software.yancloud.YanCloudSet;
 import com.example.pku_j.software.yancloud.YanCloudGet;
 
 public class YanCloud {
