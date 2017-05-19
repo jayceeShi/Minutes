@@ -1,20 +1,31 @@
 package com.example.pku_j.software;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.IBinder;
 import android.support.v4.app.ActivityCompat;
+import android.text.Editable;
+import android.text.InputType;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import android.text.TextWatcher;
+import android.util.AttributeSet;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.ViewConfiguration;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
@@ -22,12 +33,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.widget.LinearLayout;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.ListView;
@@ -42,11 +56,13 @@ import java.util.ArrayList;
 import java.util.List;
 import android.os.Handler;
 import android.view.ViewGroup.LayoutParams;
-import com.yancloud.android.reflection.get.YanCloudGet;
+import android.widget.Toast;
+
+import static android.graphics.Typeface.SANS_SERIF;
 
 
 public class MainActivity extends AppCompatActivity {
-    private float startx, starty, endx, endy;
+    private float startx, starty;
     private float centerx, centery;
     private float radius = 180.0f;
     private Bitmap baseBitmap;
@@ -56,7 +72,9 @@ public class MainActivity extends AppCompatActivity {
     private MsgService msgService;
     private int timeT;
     private int canUrl = 0;
-    private Recommendation recRec = null;
+    private EditText TopicEndTime;
+
+    private ArrayList<Recommendation> recRec = null;
     public double calcuAng(float x, float y){
 
         if(x - centerx < 0.001 && x - centerx > -0.001){
@@ -69,68 +87,25 @@ public class MainActivity extends AppCompatActivity {
     }
     private Button menu;
     private ArrayList<String> list = new ArrayList<String>();
+    private ArrayList<String> listCreate = new ArrayList<String>();
     private String url;
-    private boolean changeFlag = false;
     public ImageView dis;
-    private Bitmap bmp;
     private TextView name;
     private Handler handler=null;
-    private ImageButton hanImg;
+    private Handler handleri = null;
+    private PopupWindow window = null;
+
     ServiceConnection conn;
     private SlidingDrawer sd;
-    Runnable   runnableUi=new  Runnable(){
-        @Override
-        public void run() {
-            url = recRec.DeepLink;
-            Log.v("trace~",url);
-            canUrl = 1;
-            ImageView logo = (ImageView)findViewById(R.id.logo);
-            TextView txt = (TextView)findViewById(R.id.Rtime);
-            Bitmap logo2;
-            txt.setText("00:" + String.format("%02d", recRec.Period));
-            TextView title = (TextView)findViewById(R.id.Name);
-            title.setText(recRec.Title);
-
-            switch(recRec.Source){
-                case "keep":
-                    //dis.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.shopping));
-                    logo.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.keep));break;
-                case "jd":
-                    //dis.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.shopping));
-                    logo.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.shopping_icon));break;
-                case "youku":
-                    //dis.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.video));
-                    logo.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.video_icon));break;
-                case "zhihu":
-                    //dis.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.video));
-                    logo.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.news_icon));break;
-                case "toutiao":
-                    //dis.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.video));
-                    logo.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.news_icon));break;
-                default:
-                    //dis.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.video));
-                    logo.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.keep));break;
-            }
-            logo2 = recRec.getThumbnail();
-            //if(logo2 != null)
-                dis.setImageBitmap(logo2);
-        }
-
-    };
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        //if (getSupportActionBar() != null){
-        //    getSupportActionBar().hide();
-        //}
-        verifyStoragePermissions(this);
-
+    private int mYear, mMonth, mDay;
+    public void FirstLayout(){
         setContentView(R.layout.recommendlay);
 
-        handler=new Handler();
+        if(window != null && window.isShowing())
+            window.dismiss();
 
+        handler=new Handler();
+        handleri = new Handler();
 
         sd = (SlidingDrawer)findViewById(R.id.sliding);
         final ImageButton imbg = (ImageButton)findViewById(R.id.handle);
@@ -138,21 +113,21 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void onDrawerOpened() {
-                imbg.getBackground().setAlpha(0);
+                imbg.getBackground().setAlpha(255);
             }
 
         });
 
         sd.setOnDrawerCloseListener(new SlidingDrawer.OnDrawerCloseListener() {
-                                        @Override
-                                        public void onDrawerClosed() {
-                                            imbg.getBackground().setAlpha(1);
-                                            imbg.setImageResource(R.drawable.uprow);
-                                        }
-                                    });
+            @Override
+            public void onDrawerClosed() {
+                imbg.getBackground().setAlpha(255);
+                imbg.setImageResource(R.drawable.uprow);
+            }
+        });
         clock = (ImageView)findViewById(R.id.clock);
 
-        list.add("exit");
+
         paint = new Paint();
         paint.setStrokeWidth(1);
         paint.setColor(Color.RED);
@@ -164,44 +139,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.v("trace~",""+this.getWindowManager().getDefaultDisplay().getHeight());
         dis=(ImageView)(findViewById(R.id.display));
-        bmp= BitmapFactory.decodeResource(getResources(), R.drawable.renyue);
 
-
-        Bitmap lot1 = BitmapFactory.decodeResource(getResources(), R.drawable.keep);
-
-        ImageView tempDis = (ImageView)findViewById(R.id.rec2);
-        LayoutParams para = tempDis.getLayoutParams();
-
-
-        int height=para.height;
-
-        int width=para.width;
-
-        Bitmap icon = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888); //建立一个空的图画板
-        Canvas canvas = new Canvas(icon);//初始化画布绘制的图像到icon上
-
-        Paint photoPaint = new Paint(); //建立画笔
-        Paint photoPaint2 = new Paint();
-        photoPaint2.setTextSize(50);
-        //paint.setTypeface();
-        Rect dst = new Rect(30, 15, height-20, height-25);//创建一个指定的新矩形的坐标
-        canvas.drawBitmap(lot1, null, dst, photoPaint);//将photo 缩放或则扩大到 dst使用的填充区photoPain
-
-        //canvas.drawText("new recommendation to do ahhhhhhhhhh", height, height/2, photoPaint2);//将photo 缩放或则扩大到 dst使用的填充区photoPaint
-
-        canvas.drawText("time",60,height-10,photoPaint);
-
-        TextPaint textPaint = new TextPaint();
-        //textPaint.setARGB(0xFF, 0xFF, 0, 0);
-        textPaint.setTextSize(40.0F);
-        String aboutTheGame = "new recommendation to do ahhhhhhhhhh ";
-/** * aboutTheGame ：要 绘制 的 字符串 ,textPaint(TextPaint 类型)设置了字符串格式及属性 的画笔,240为设置 画多宽后 换行，后面的参数是对齐方式... */
-        StaticLayout layout = new StaticLayout(aboutTheGame,textPaint,width-height-10, Layout.Alignment.ALIGN_NORMAL,1.0F,0.0F,true);
-//从 (20,80)的位置开始绘制
-        canvas.translate(height,20);
-        canvas.save(Canvas.ALL_SAVE_FLAG);
-        layout.draw(canvas);
-        tempDis.setImageBitmap(icon);
 
         conn = new ServiceConnection() {
             @Override
@@ -221,7 +159,11 @@ public class MainActivity extends AppCompatActivity {
                         if(progress == 1) {
                             Log.v("trace~","have got recommendation");
                             recRec = msgService.getRec();
+                            for(int i = 0; i < 8; i++) {
+                                recRec.get(i).getThumbnail();
+                            }
                             handler.post(runnableUi);
+                            handleri.post(runnableUii);
                         }
                         msgService.resetpro();
                     }
@@ -254,41 +196,558 @@ public class MainActivity extends AppCompatActivity {
         });
         ImageView up = (ImageView)findViewById(R.id.up);
 
+        ImageView tmpRec = (ImageView)findViewById(R.id.rec1);
+        tmpRec.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.v("trace~","click first rec");
+                if(canUrl != 0) {
+                    Uri uri = Uri.parse(recRec.get(1).DeepLink);
+                    Intent it = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(it);
+                }
+            }
+        });
+        tmpRec = (ImageView)findViewById(R.id.rec2);
+        tmpRec.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(canUrl != 0) {
+                    Uri uri = Uri.parse(recRec.get(2).DeepLink);
+                    Intent it = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(it);
+                }
+            }
+        });
+        tmpRec = (ImageView)findViewById(R.id.rec3);
+        tmpRec.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(canUrl != 0) {
+                    Uri uri = Uri.parse(recRec.get(3).DeepLink);
+                    Intent it = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(it);
+                }
+            }
+        });
+        tmpRec = (ImageView)findViewById(R.id.rec4);
+        tmpRec.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(canUrl != 0) {
+                    Uri uri = Uri.parse(recRec.get(4).DeepLink);
+                    Intent it = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(it);
+                }
+            }
+        });
+        tmpRec = (ImageView)findViewById(R.id.rec5);
+        tmpRec.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(canUrl != 0) {
+                    Uri uri = Uri.parse(recRec.get(5).DeepLink);
+                    Intent it = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(it);
+                }
+            }
+        });
+        tmpRec = (ImageView)findViewById(R.id.rec6);
+        tmpRec.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(canUrl != 0) {
+                    Uri uri = Uri.parse(recRec.get(6).DeepLink);
+                    Intent it = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(it);
+                }
+            }
+        });
+        tmpRec = (ImageView)findViewById(R.id.rec7);
+        tmpRec.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(canUrl != 0) {
+                    Uri uri = Uri.parse(recRec.get(7).DeepLink);
+                    Intent it = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(it);
+                }
+            }
+        });
 
-        menu = (Button)(findViewById(R.id.menu));
+
+        menu = (Button)(findViewById(R.id.Menu));
+        //spin = (Spinner)(findViewById(R.id.spinner));
+        menu.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_UP) {
+                    View popupView = MainActivity.this.getLayoutInflater().inflate(R.layout.popupwindow, null, false);
+
+                    ListView lsvMore = (ListView) popupView.findViewById(R.id.lsvMore);
+
+
+                    window = new PopupWindow(popupView, 150, 300, true);
+
+                    window.setTouchable(true);
+                    window.setFocusable(true);
+                    window.setOutsideTouchable(true);
+                    //window.update();
+                    window.setBackgroundDrawable(getResources().getDrawable(
+                            R.drawable.winback));
+                    window.showAsDropDown(menu, 0, 20);
+                    lsvMore.setAdapter(new ArrayAdapter<String>(MainActivity.this, R.layout.list_item_1, list));
+
+                    lsvMore.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                        @Override
+                        public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+                                                long arg3) {
+                            if (list.get(arg2).equals("退出")) {
+                                unbindService(conn);
+                                System.exit(0);
+                            }
+                            if (list.get(arg2).equals("随时")) {
+                                window.dismiss();
+                                FirstLayout();
+                            }
+                            if (list.get(arg2).equals("目标")) {
+                                window.dismiss();
+                                ViewLayout();
+                            }
+
+                        }
+                    });
+                }
+
+                return true;
+            }
+        });
+
+    }
+    public void ViewLayout(){
+        setContentView(R.layout.view);
+        if(window.isShowing()) {
+            window.dismiss();
+        }
+
+        menu = (Button)(findViewById(R.id.Menu));
         //spin = (Spinner)(findViewById(R.id.spinner));
         menu.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
-                View popupView = MainActivity.this.getLayoutInflater().inflate(R.layout.popupwindow, null);
 
-                ListView lsvMore = (ListView) popupView.findViewById(R.id.lsvMore);
-                lsvMore.setAdapter(new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, list));
+                if(event.getAction() ==  MotionEvent.ACTION_UP) {
+                    View popupView = MainActivity.this.getLayoutInflater().inflate(R.layout.popupwindow, null, false);
 
-                lsvMore.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    ListView lsvMore = (ListView) popupView.findViewById(R.id.lsvMore);
+                    lsvMore.setAdapter(new ArrayAdapter<String>(MainActivity.this, R.layout.list_item_1, list));
 
-                    @Override
-                    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-                                            long arg3) {
-                        if(list.get(arg2).equals("exit")){
-                            unbindService(conn);
-                            System.exit(0);
+                    window = new PopupWindow(popupView, 150, 300, true);
+                    window.setBackgroundDrawable(getResources().getDrawable(
+                            R.drawable.winback));
+
+                    window.setTouchable(true);
+                    window.setFocusable(true);
+                    window.setOutsideTouchable(true);
+                    window.showAsDropDown(menu, 0, 20);
+                    //window.update();
+                    lsvMore.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                        @Override
+                        public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+                                                long arg3) {
+                            if (list.get(arg2).equals("退出")) {
+                                unbindService(conn);
+                                System.exit(0);
+                            }
+                            if (list.get(arg2).equals("随时")) {
+
+                                window.dismiss();
+
+                                FirstLayout();
+                            }
+                            if (list.get(arg2).equals("目标")) {
+
+                                window.dismiss();
+
+                                ViewLayout();
+                            }
+
                         }
-                        System.out.print(arg2);
-                    }
-                });
-
-                PopupWindow window = new PopupWindow(popupView, 120, 100);
-
-                window.setFocusable(true);
-                window.setOutsideTouchable(true);
-                window.update();
-                window.showAsDropDown(menu, 0, 20);
+                    });
+                }
 
                 return true;
+
+            }
+
+        });
+        DeletableAdapter adapter = new DeletableAdapter(this, listCreate);
+        ListView listCreated = (ListView)findViewById(R.id.created);
+        listCreated.setAdapter(adapter);
+        ImageView create = (ImageView)findViewById(R.id.create);
+        listCreate.add("#马刺，每天");
+        adapter.notifyDataSetChanged();
+        create.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TopicLayout();
             }
         });
+
+
+
+
+    }
+    public void TopicLayout() {
+        setContentView(R.layout.topic);
+        if(window != null && window.isShowing())
+            window.dismiss();
+        if(window != null && window.isShowing())
+            window.dismiss();
+        if(window != null && window.isShowing())
+            window.dismiss();
+
+        menu = (Button) (findViewById(R.id.Menu));
+        //spin = (Spinner)(findViewById(R.id.spinner));
+        menu.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                if(event.getAction() ==  MotionEvent.ACTION_UP) {
+                    View popupView = MainActivity.this.getLayoutInflater().inflate(R.layout.popupwindow, null, false);
+
+                    ListView lsvMore = (ListView) popupView.findViewById(R.id.lsvMore);
+                    lsvMore.setAdapter(new ArrayAdapter<String>(MainActivity.this, R.layout.list_item_1, list));
+
+
+                    window = new PopupWindow(popupView, 150, 300, true);
+                    window.setBackgroundDrawable(getResources().getDrawable(
+                            R.drawable.winback));
+                    window.setTouchable(true);
+                    window.setFocusable(true);
+                    window.setOutsideTouchable(true);
+                    window.showAsDropDown(menu, 0, 20);
+                    //window.update();
+                    lsvMore.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                        @Override
+                        public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+                                                long arg3) {
+                            if (list.get(arg2).equals("退出")) {
+                                unbindService(conn);
+                                System.exit(0);
+                            }
+                            if (list.get(arg2).equals("随时")) {
+                                window.dismiss();
+
+                                FirstLayout();
+                            }
+                            if (list.get(arg2).equals("目标")) {
+
+                                window.dismiss();
+
+                                ViewLayout();
+                            }
+
+                        }
+                    });
+
+                }
+                return false;
+            }
+        });
+
+
+        TopicEndTime = (EditText)findViewById(R.id.editTime);
+        TopicEndTime.setInputType(InputType.TYPE_NULL);
+        TopicEndTime.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                showDialog(0);
+            }
+        });
+        TopicEndTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus == true) {
+                    hideIM(v);
+                    showDialog(0);
+                }
+            }
+        });
+    }
+    public class DeletableAdapter extends BaseAdapter {
+        private Context context;
+        private ArrayList<String> text;
+
+        public DeletableAdapter(Context context, ArrayList<String> text) {
+            this.context = context;
+            this.text = text;
+        }
+
+        @Override
+        public int getCount() {
+// TODO Auto-generated method stub
+            return text.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+// TODO Auto-generated method stub
+            return text.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+// TODO Auto-generated method stub
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+// TODO Auto-generated method stub
+            final int index = position;
+            View view = convertView;
+            if (view == null) {
+                LayoutInflater inflater = (LayoutInflater) context
+                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                view = inflater.inflate(R.layout.list_sch, null);
+            }
+            final TextView textView = (TextView) view
+                    .findViewById(R.id.lv_item_tv);
+            textView.setText(text.get(position));
+            final ImageView imageView = (ImageView) view.findViewById(R.id.lv_item_bt);
+            //imageView.setBackgroundResource(android.R.drawable.ic_delete);
+            imageView.setTag(position);
+            imageView.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+// TODO Auto-generated method stub
+                    text.remove(index);
+                    notifyDataSetChanged();
+                    Toast.makeText(context, textView.getText().toString() + " 再会",
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+            return view;
+        }
+    }
+
+
+    private DatePickerDialog.OnDateSetListener mDateSetListener =
+            new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                    mYear = year;
+                    String mm;
+                    String dd;
+                    if(monthOfYear<=9)
+                    {
+                        mMonth = monthOfYear+1;
+                        mm="0"+mMonth;
+                    }
+                    else{
+                        mMonth = monthOfYear+1;
+                        mm=String.valueOf(mMonth);
+                    }
+                    if(dayOfMonth<=9)
+                    {
+                        mDay = dayOfMonth;
+                        dd="0"+mDay;
+                    }
+                    else{
+                        mDay = dayOfMonth;
+                        dd=String.valueOf(mDay);
+                    }
+                    mDay = dayOfMonth;
+                    TopicEndTime.setText(String.valueOf(mYear)+"-"+mm+"-"+dd);
+                }
+            };
+
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case 0:
+                return new DatePickerDialog(this,
+                        mDateSetListener,
+                        mYear, mMonth, mDay);
+            case 1:
+                return new DatePickerDialog(this,
+                        mDateSetListener,
+                        mYear, mMonth, mDay);
+        }
+        return null;
+    }
+
+    // 隐藏手机键盘
+    private void hideIM(View edt){
+        try {
+            InputMethodManager im = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+            IBinder  windowToken = edt.getWindowToken();
+            if(windowToken != null) {
+                im.hideSoftInputFromWindow(windowToken, 0);
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
+    Runnable   runnableUi=new  Runnable(){
+        @Override
+        public void run() {
+            url = recRec.get(0).DeepLink;
+            Log.v("trace~",url);
+            canUrl = 1;
+            ImageView logo = (ImageView)findViewById(R.id.logo);
+            TextView txt = (TextView)findViewById(R.id.Rtime);
+            Bitmap logo2;
+            txt.setText("00:" + String.format("%02d", recRec.get(0).Period));
+            TextView title = (TextView)findViewById(R.id.Name);
+            String titleS = recRec.get(0).Title;
+            if(titleS.length() > 20)
+                titleS = titleS.substring(0,19) + "...";
+            title.setText(titleS);
+
+            switch(recRec.get(0).Source){
+                case "keep":
+                    //dis.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.shopping));
+                    logo.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.keep));break;
+                case "jd":
+                    //dis.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.shopping));
+                    logo.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.shopping_icon));break;
+                case "youku":
+                    //dis.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.video));
+                    logo.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.video_icon));break;
+                case "le":
+                    //dis.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.video));
+                    logo.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.video_icon));break;
+                case "zhihu":
+                    //dis.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.video));
+                    logo.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.news_icon));break;
+                case "toutiao":
+                    //dis.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.video));
+                    logo.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.news_icon));break;
+                default:
+                    //dis.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.video));
+                    logo.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.keep));break;
+            }
+            logo2 = recRec.get(0).getThumbnail();
+            //if(logo2 != null)
+            dis.setImageBitmap(logo2);
+
+        }
+
+    };
+
+    Runnable   runnableUii=new  Runnable(){
+        @Override
+        public void run() {
+
+            Bitmap logo2 = recRec.get(1).getThumbnail();
+
+            ImageView tempDiss = (ImageView)findViewById(R.id.rec1);
+            LayoutParams para = tempDiss.getLayoutParams();
+
+
+            int height=para.height;
+
+            int width=para.width;
+            for(int i = 1; i <= 7; i++) {
+                Log.v("trace@","into trace "+i+" " + recRec.get(i).Source);
+                Bitmap setLogo;
+                ImageView tempDis = (ImageView)findViewById(R.id.rec1);
+
+                switch(i){
+                    case 1:tempDis = (ImageView)findViewById(R.id.rec1);
+                        break;
+                    case 2: tempDis = (ImageView)findViewById(R.id.rec2);
+                        break;
+                    case 3:tempDis = (ImageView)findViewById(R.id.rec3);
+                        break;
+                    case 4:tempDis = (ImageView)findViewById(R.id.rec4);
+                        break;
+                    case 5:tempDis = (ImageView)findViewById(R.id.rec5);
+                        break;
+                    case 6:tempDis = (ImageView)findViewById(R.id.rec6);
+                        break;
+                    case 7:tempDis = (ImageView)findViewById(R.id.rec7);
+                        break;
+                }
+
+                Bitmap icon = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888); //建立一个空的图画板
+                Canvas canvas = new Canvas(icon);//初始化画布绘制的图像到icon上
+
+                Paint photoPaint = new Paint(); //建立画笔
+                Paint photoPaint2 = new Paint();
+                photoPaint2.setTextSize(40);
+                //paint.setTypeface();
+                Rect dst = new Rect(30, 15, height - 20, height - 25);//创建一个指定的新矩形的坐标
+                Log.v("trace@","into trace second "+i+" " + recRec.get(i).Source);
+                switch(recRec.get(i).Source){
+                    case "keep":
+                        canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.keep), null, dst, photoPaint);break;
+                    case "jd":
+
+                        canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.shopping_icon), null, dst, photoPaint);break;
+                    case "youku":
+
+                        canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.video_icon), null, dst, photoPaint);break;
+                    case "le":
+
+                        canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.video_icon), null, dst, photoPaint);break;
+                    case "zhihu":
+
+                        canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.news_icon), null, dst, photoPaint);break;
+                    case "toutiao":
+
+                        canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.news_icon), null, dst, photoPaint);break;
+
+                    default:
+                        canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.keep), null, dst, photoPaint);break;
+                }
+                Log.v("trace@","into trace third "+i+" " + recRec.get(i).Source);
+                //将photo 缩放或则扩大到 dst使用的填充区photoPain
+                //canvas.drawText("new recommendation to do ahhhhhhhhhh", height, height/2, photoPaint2);//将photo 缩放或则扩大到 dst使用的填充区photoPaint
+
+                canvas.drawText("00:" + String.format("%02d", recRec.get(i).Period), 60, height - 10, photoPaint);
+
+                TextPaint textPaint = new TextPaint();
+                //textPaint.setARGB(0xFF, 0xFF, 0, 0);
+                textPaint.setTextSize(30.0F);
+                textPaint.setTypeface(SANS_SERIF);
+                String aboutTheGame = recRec.get(i).Title;
+                if(aboutTheGame.length() > 17)
+                    aboutTheGame = aboutTheGame.substring(0,16) + "...";
+/** * aboutTheGame ：要 绘制 的 字符串 ,textPaint(TextPaint 类型)设置了字符串格式及属性 的画笔,240为设置 画多宽后 换行，后面的参数是对齐方式... */
+                StaticLayout layout = new StaticLayout(aboutTheGame, textPaint, width - height - 10, Layout.Alignment.ALIGN_NORMAL, 1.0F, 0.0F, true);
+//从 (20,80)的位置开始绘制
+
+                canvas.translate(height, 20);
+                canvas.save(Canvas.ALL_SAVE_FLAG);
+                layout.draw(canvas);
+                tempDis.setImageBitmap(icon);
+            }
+
+
+        }
+
+    };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        //if (getSupportActionBar() != null){
+        //    getSupportActionBar().hide();
+        //}
+        verifyStoragePermissions(this);
+
+        list.add("目标");
+        list.add("随时");
+        list.add("退出");
+
+        FirstLayout();
 
 
     }
@@ -349,12 +808,12 @@ public class MainActivity extends AppCompatActivity {
                     clock.setImageBitmap(baseBitmap);
                     clock.invalidate();
 
-                    ((TextView)(findViewById(R.id.Time))).setText("00:" + String.format("%02d", 2*calcuTime(Math.toDegrees(angle))));
+                    ((TextView)(findViewById(R.id.Time))).setText("00:" + String.format("%02d", calcuTime(Math.toDegrees(angle))/2));
 
                     break;
                 case MotionEvent.ACTION_UP:
 
-                    int time = 2*calcuTime(Math.toDegrees(angle));
+                    int time = calcuTime(Math.toDegrees(angle))/2;
                     timeT = time;
                     ((TextView)(findViewById(R.id.TTime))).setText("00:" + String.format("%02d", timeT));
                     passAng(time);

@@ -13,7 +13,7 @@
         android:layout_alignParentStart="true" />
 
     <Button
-        android:id="@+id/menu"
+        android:id="@+id/Menu"
         android:layout_width="65dp"
         android:layout_height="52dp"
         android:layout_marginRight="-66dp"
@@ -27,8 +27,8 @@
         android:layout_height="294dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_below="@+id/menu"
-        android:layout_alignEnd="@+id/background" />
+        android:layout_below="@+id/Menu"
+        android:layout_alignEnd="@+id/goalBack" />
 
     <ImageView
         android:id="@+id/display"
@@ -38,7 +38,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:background="@android:color/background_light"
-        android:layout_alignBottom="@+id/background"
+        android:layout_alignBottom="@+id/goalBack"
         android:layout_centerHorizontal="true" />
 
     <TextView
@@ -60,7 +60,7 @@
         android:layout_width="223dp"
         android:layout_height="50dp"
         android:layout_alignEnd="@+id/clock"
-        android:layout_alignTop="@+id/background"
+        android:layout_alignTop="@+id/goalBack"
         android:layout_marginRight="20dp"
         android:layout_marginTop="15dp"
         android:background="@android:color/background_light"
@@ -82,7 +82,7 @@
         android:background="#fbfbfb"
         app:srcCompat="@mipmap/ic_launcher_round"
         android:layout_alignTop="@+id/Name"
-        android:layout_alignStart="@+id/background"
+        android:layout_alignStart="@+id/goalBack"
         android:layout_marginStart="13dp" />
 
     <TextView
@@ -98,7 +98,7 @@
         android:textAlignment="center" />
 
     <ImageView
-        android:id="@+id/background"
+        android:id="@+id/goalBack"
         android:layout_width="327dp"
         android:layout_height="240dp"
         android:layout_alignParentBottom="true"

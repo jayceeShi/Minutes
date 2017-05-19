@@ -10,7 +10,7 @@
     tools:context="com.example.pku_j.software.MainActivity">
 
     <ImageView
-        android:id="@+id/background"
+        android:id="@+id/goalBack"
         android:layout_width="327dp"
         android:layout_height="240dp"
         android:layout_marginBottom="8dp"
@@ -32,11 +32,11 @@
         android:layout_marginRight="1dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/killtime"
-        app:layout_constraintRight_toLeftOf="@+id/menu"
+        app:layout_constraintRight_toLeftOf="@+id/Menu"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/menu"
+        android:id="@+id/Menu"
         android:layout_width="65dp"
         android:layout_height="52dp"
         android:layout_marginRight="-66dp"

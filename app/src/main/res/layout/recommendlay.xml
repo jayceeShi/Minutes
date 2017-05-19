@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FCFCFC"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/allMove"
@@ -13,7 +14,7 @@
         android:layout_alignParentTop="true" />
 
     <ImageView
-        android:id="@+id/background"
+        android:id="@+id/goalBack"
         android:layout_width="327dp"
         android:layout_height="240dp"
         android:layout_alignTop="@+id/clock"
@@ -27,19 +28,19 @@
         android:id="@+id/display"
         android:layout_width="279dp"
         android:layout_height="135dp"
+        android:layout_alignBottom="@+id/goalBack"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="18dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:background="@android:color/background_light"
-        android:layout_alignBottom="@+id/background"
-        android:layout_centerHorizontal="true" />
+        android:background="@android:color/background_light" />
 
     <TextView
         android:id="@+id/Name"
         android:layout_width="223dp"
         android:layout_height="50dp"
-        android:layout_alignEnd="@+id/background"
-        android:layout_alignTop="@+id/background"
+        android:layout_alignEnd="@+id/goalBack"
+        android:layout_alignTop="@+id/goalBack"
         android:layout_marginRight="20dp"
         android:layout_marginTop="15dp"
         android:background="@android:color/background_light"
@@ -56,7 +57,7 @@
         android:id="@+id/logo"
         android:layout_width="46dp"
         android:layout_height="37dp"
-        android:layout_alignStart="@+id/background"
+        android:layout_alignStart="@+id/goalBack"
         android:layout_alignTop="@+id/Name"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
@@ -69,7 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="294dp"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/menu"
+        android:layout_below="@+id/Menu"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginTop="0dp"
@@ -104,14 +105,14 @@
 
 
     <Button
-        android:id="@+id/menu"
+        android:id="@+id/Menu"
         android:layout_width="65dp"
-        android:layout_height="52dp"
+        android:layout_height="50dp"
+        android:layout_alignBottom="@+id/title"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:layout_marginRight="0dp"
-        android:background="@drawable/capture"
-        android:layout_alignBottom="@+id/title"
-        android:layout_alignParentEnd="true" />
+        android:background="@drawable/capture" />
 
     <ImageView
         android:id="@+id/title"
@@ -125,16 +126,16 @@
         android:id="@+id/sliding"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/Menu"
         android:content="@+id/content"
         android:handle="@+id/handle"
-        android:orientation="vertical"
-        android:layout_below="@+id/menu">
+        android:orientation="vertical">
 
         <ImageButton
             android:id="@id/handle"
             android:layout_width="35dp"
 
-            android:layout_height="20dp"
+            android:layout_height="15dp"
 
             android:background="@drawable/uprow" />
 
@@ -178,69 +179,79 @@
 
             <ImageView
                 android:id="@+id/rec1"
-                android:layout_width="375dp"
+                android:layout_width="340dp"
                 android:layout_height="70dp"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="end"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="18dp"
                 android:background="@drawable/content_bkg"
-                android:gravity="center"
                 android:textAlignment="center"
                 android:textSize="34sp" />
 
             <ImageView
                 android:id="@+id/rec2"
-                android:layout_width="375dp"
+                android:layout_width="340dp"
                 android:layout_height="70dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp"
+                android:layout_gravity="end"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="1dp"
                 android:background="@drawable/content_bkg"
-                android:gravity="center"
                 android:textAlignment="center"
                 android:textSize="34sp" />
 
             <ImageView
                 android:id="@+id/rec3"
-                android:layout_width="375dp"
+                android:layout_width="340dp"
                 android:layout_height="70dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp"
+                android:layout_gravity="end"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="1dp"
                 android:background="@drawable/content_bkg"
-                android:gravity="center"
                 android:textAlignment="center"
                 android:textSize="34sp" />
 
             <ImageView
                 android:id="@+id/rec4"
-                android:layout_width="375dp"
+                android:layout_width="340dp"
                 android:layout_height="70dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp"
+                android:layout_gravity="end"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="1dp"
                 android:background="@drawable/content_bkg"
-                android:gravity="center"
                 android:textAlignment="center"
                 android:textSize="34sp" />
 
             <ImageView
                 android:id="@+id/rec5"
-                android:layout_width="375dp"
+                android:layout_width="340dp"
                 android:layout_height="70dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp"
+                android:layout_gravity="end"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="1dp"
                 android:background="@drawable/content_bkg"
-                android:gravity="center"
                 android:textAlignment="center"
                 android:textSize="34sp" />
 
             <ImageView
                 android:id="@+id/rec6"
-                android:layout_width="375dp"
+                android:layout_width="340dp"
                 android:layout_height="70dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp"
+                android:layout_gravity="end"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="1dp"
                 android:background="@drawable/content_bkg"
-                android:gravity="center"
                 android:textAlignment="center"
                 android:textSize="34sp" />
 
+            <ImageView
+                android:id="@+id/rec7"
+                android:layout_width="340dp"
+                android:layout_height="70dp"
+                android:layout_gravity="end"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/content_bkg"
+                android:textAlignment="center"
+                android:textSize="34sp" />
         </LinearLayout>
     </SlidingDrawer>
 

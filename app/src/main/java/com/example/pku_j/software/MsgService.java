@@ -19,6 +19,7 @@ import com.yancloud.android.reflection.get.YanCloudGet;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 
+import java.sql.Array;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.util.Collection;
@@ -34,7 +35,7 @@ public class MsgService extends Service {
 
     private int progress = 0;
     private int time = 0;
-    private Recommendation returnRec = null;
+    private ArrayList<Recommendation> returnRec = null;
     private String url = null;
 
     private Thread _backThread = null;
@@ -55,10 +56,10 @@ public class MsgService extends Service {
             _backThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                while (true) {
-                    doBackground();
-                    sleep(10 * 1000);
-                }
+                    while (true) {
+                        doBackground();
+                        sleep(10 * 1000);
+                    }
                 }
             });
             _backThread.start();
@@ -114,7 +115,6 @@ public class MsgService extends Service {
             /*
             //final String PKG_TAOBAO = "com.taobao.taobao";
             final String PKG_TAOBAO = "cn.kuwo.player";
-
             String[] pkgs = new String[] { PKG_TAOBAO };
             YanCloudGet api = myFromPackageName(ip, 1800, pkgs);
             if (api != null) {
@@ -191,7 +191,7 @@ public class MsgService extends Service {
         return Math.cos(Math.PI * rate / 0.6);
     }
 
-    public Recommendation getRecommendation(int period)
+    public ArrayList<Recommendation> getRecommendation(int period, int count)
     {
         ArrayList<Recommendation> candidates = new ArrayList<>();
         ArrayList<Double> probability = new ArrayList<>();
@@ -216,16 +216,23 @@ public class MsgService extends Service {
 
         if (candidates.size() == 0) return null;
 
+        ArrayList<Recommendation> ret = new ArrayList<Recommendation>();
+        ArrayList<Integer> retIdx = new ArrayList<Integer>();
         Random rand = new Random();
-        while (true) {
+        while (ret.size() < count) {
             for (int i = 0; i < candidates.size(); ++i) {
                 double prob = probability.get(i);
                 if (rand.nextDouble() <= prob / sum) {
-                    return candidates.get(i);
+                    if (!retIdx.contains(i)) {
+                        Recommendation r = candidates.get(i);
+                        ret.add(r);
+                        retIdx.add(i);
+                    }
                 }
             }
         }
 
+        return ret;
     }
 
     public int getProgress() {
@@ -256,10 +263,7 @@ public class MsgService extends Service {
             public void run(){
 
 
-                returnRec = getRecommendation(time);
-                returnRec.getThumbnail();
-
-                Log.v("trace~","" + returnRec.Period);
+                returnRec = getRecommendation(time,8);
                 progress = 1;
                 if (onProgressListener != null) {
                     onProgressListener.onProgress(progress);
@@ -267,7 +271,7 @@ public class MsgService extends Service {
             }
         }).start();
     }
-    public Recommendation getRec(){
+    public ArrayList<Recommendation> getRec(){
         return returnRec;
     }
     public void resetpro(){
