@@ -364,7 +364,6 @@ public class MsgService extends Service {
     {
         Topic topic = selectTopic();
         String tag = (topic == null) ? null : topic.Tag;
-        Log.e("trace~","into tag recom " + tag);
         final int TOPIC_RECOMMENDATION_COUNT = 4;
         if (count < TOPIC_RECOMMENDATION_COUNT) {
 
