@@ -11,6 +11,24 @@
         <dex dex="C:\Users\pku_j\AndroidStudioProjects\Software\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_b5aad66e52abec4c7a9aac5a9985ed09df68c3d6\classes.dex" />
     </item>
     <item
+        is-multidex="false"
+        jar="C:\Users\pku_j\AndroidStudioProjects\Software\app\src\main\libs\mysql-connector-java-5.0.8-bin.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="7b9bfb6c4e4885660378a9c13330915c321f6cca">
+        <dex dex="C:\Users\pku_j\AndroidStudioProjects\Software\app\build\intermediates\pre-dexed\debug\mysql-connector-java-5.0.8-bin_e58f006cb40960505c5bb4d44552214901830f94.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\pku_j\AndroidStudioProjects\Software\app\src\main\libs\YancloudLib.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="9c200614486ca994267f2c9f380e175192120eb2">
+        <dex dex="C:\Users\pku_j\AndroidStudioProjects\Software\app\build\intermediates\pre-dexed\debug\YancloudLib_dfe082de244fd50cfd7807499e9e6a0a4578f584.jar" />
+    </item>
+    <item
         is-multidex="true"
         jar="C:\Users\pku_j\AndroidStudioProjects\Software\app\src\main\libs\YancloudLib.jar"
         jumboMode="true"

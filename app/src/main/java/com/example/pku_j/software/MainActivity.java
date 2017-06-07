@@ -73,8 +73,7 @@ public class MainActivity extends AppCompatActivity {
     private float centerx, centery;
     private float radius = 180.0f;
     private Bitmap baseBitmap;
-    private Canvas canvas;
-    private Paint paint;
+    public Canvas canvas;
     private ImageView clock;
     private MsgService msgService;
     private int timeT;
@@ -140,8 +139,6 @@ public class MainActivity extends AppCompatActivity {
     public void FirstLayout(){
         setContentView(R.layout.recommendlay);
         baseBitmap = null;
-        if(window != null && window.isShowing())
-            window.dismiss();
 
         handler=new Handler();
         handleri = new Handler();
@@ -166,10 +163,6 @@ public class MainActivity extends AppCompatActivity {
         });
         clock = (ImageView)findViewById(R.id.clock);
 
-
-        paint = new Paint();
-        paint.setStrokeWidth(1);
-        paint.setColor(Color.RED);
 
         clock.setOnTouchListener(new PicOnTouchListener());
 
@@ -465,16 +458,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        TextView time1 = (TextView)findViewById(R.id.time1);
-        TextView time2 = (TextView)findViewById(R.id.time2);
-        TextView time3 = (TextView)findViewById(R.id.time3);
-        TextView time4 = (TextView)findViewById(R.id.time4);
-        TextView time5 = (TextView)findViewById(R.id.time5);
+        final TextView time1 = (TextView)findViewById(R.id.time1);
+        final TextView time2 = (TextView)findViewById(R.id.time2);
+        final TextView time3 = (TextView)findViewById(R.id.time3);
+        final TextView time4 = (TextView)findViewById(R.id.time4);
+        final TextView time5 = (TextView)findViewById(R.id.time5);
         final CheckBox cb = (CheckBox)this.findViewById(R.id.checkBox);
         time1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                time1.setBackgroundColor(Color.parseColor("#bca590"));
+                time5.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
+                time2.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
+                time3.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
+                time4.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
                 Calendar c = Calendar.getInstance();
                 c.add(Calendar.DATE,7);
                 mDay = c.get(Calendar.DAY_OF_MONTH);
@@ -491,6 +488,11 @@ public class MainActivity extends AppCompatActivity {
         time2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                time2.setBackgroundColor(Color.parseColor("#bca590"));
+                time1.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
+                time5.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
+                time3.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
+                time4.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
                 Calendar c = Calendar.getInstance();
                 c.add(Calendar.DATE,20);
                 mDay = c.get(Calendar.DAY_OF_MONTH);
@@ -506,6 +508,11 @@ public class MainActivity extends AppCompatActivity {
         time3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                time3.setBackgroundColor(Color.parseColor("#bca590"));
+                time1.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
+                time2.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
+                time5.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
+                time4.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
                 Calendar c = Calendar.getInstance();
                 c.add(Calendar.MONTH, 1);
                 mDay = c.get(Calendar.DAY_OF_MONTH);
@@ -523,6 +530,11 @@ public class MainActivity extends AppCompatActivity {
         time4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                time4.setBackgroundColor(Color.parseColor("#bca590"));
+                time1.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
+                time2.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
+                time3.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
+                time5.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
                 Calendar c = Calendar.getInstance();
                 c.add(Calendar.MONTH, 3);
                 mDay = c.get(Calendar.DAY_OF_MONTH);
@@ -543,6 +555,11 @@ public class MainActivity extends AppCompatActivity {
         time5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                time5.setBackgroundColor(Color.parseColor("#bca590"));
+                time1.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
+                time2.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
+                time3.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
+                time4.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
                 Calendar c = Calendar.getInstance();
                 c.add(Calendar.YEAR, 1);
                 mDay = c.get(Calendar.DAY_OF_MONTH);
@@ -560,6 +577,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
+
+                    time1.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
+                    time2.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
+                    time3.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
+                    time4.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
+                    time5.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
                     Calendar c = Calendar.getInstance();
                     c.add(Calendar.YEAR,100);
                     mDay = c.get(Calendar.DAY_OF_MONTH);
@@ -582,7 +605,7 @@ public class MainActivity extends AppCompatActivity {
         tag1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tag1.setBackgroundColor(Color.parseColor("#33A3DC"));
+                tag1.setBackgroundColor(Color.parseColor("#bca590"));
                 myTask = "machine learning";
                 tag2.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
                 tag3.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
@@ -593,7 +616,7 @@ public class MainActivity extends AppCompatActivity {
         tag2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tag2.setBackgroundColor(Color.parseColor("#33A3DC"));
+                tag2.setBackgroundColor(Color.parseColor("#bca590"));
                 myTask = "fitness";
                 tag1.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
                 tag3.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
@@ -604,7 +627,7 @@ public class MainActivity extends AppCompatActivity {
         tag3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tag3.setBackgroundColor(Color.parseColor("#33A3DC"));
+                tag3.setBackgroundColor(Color.parseColor("#bca590"));
                 myTask = "ArtHistory";
                 tag2.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
                 tag1.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
@@ -615,7 +638,7 @@ public class MainActivity extends AppCompatActivity {
         tag4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tag4.setBackgroundColor(Color.parseColor("#33A3DC"));
+                tag4.setBackgroundColor(Color.parseColor("#bca590"));
                 myTask = "IslandTravel";
                 tag2.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
                 tag3.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
@@ -634,6 +657,12 @@ public class MainActivity extends AppCompatActivity {
                 tag2.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
                 tag3.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
                 tag4.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
+                time1.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
+                time2.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
+                time3.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
+                time4.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
+                time5.setBackgroundDrawable(getResources().getDrawable(R.drawable.tagback));
+
                 isChecked = false;
 
                 try {
@@ -1056,13 +1085,16 @@ public class MainActivity extends AppCompatActivity {
         float startX, startY;
         Bitmap q;
         double angle;
+        Paint paint;
         @Override
         public boolean onTouch(View v, MotionEvent e) {
             switch (e.getAction()) {
                 // 用户按下动作
                 case MotionEvent.ACTION_DOWN:
+                    paint = new Paint();
+                    paint.setStrokeWidth(1);
+                    paint.setColor(Color.RED);
                     //baseBitmap = Bitmap.createBitmap(clock.getWidth(), clock.getHeight(), Bitmap.Config.ARGB_8888);
-
                     if(baseBitmap == null) {
                         clock.setDrawingCacheEnabled(true);
                         baseBitmap = Bitmap.createBitmap(clock.getDrawingCache());
@@ -1087,7 +1119,6 @@ public class MainActivity extends AppCompatActivity {
                     canvas.drawBitmap(q,0,0,paint);
                     startx = e.getX();
                     starty = e.getY();
-
                     angle = calcuAng(startx, starty);
                     //System.out.print(startx + " " + starty + "\n");
                     //System.out.print(centerx + " " + centery + "\n");

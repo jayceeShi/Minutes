@@ -13,12 +13,24 @@ import android.net.wifi.*;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.LoginFilter;
+import android.text.format.DateFormat;
 import android.util.Log;
 
 import com.mysql.jdbc.*;
 import com.yancloud.android.reflection.get.YanCloudGet;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.sql.Array;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -36,7 +48,7 @@ import static android.os.SystemClock.sleep;
 
 public class MsgService extends Service {
 
-    private final String TAG = "trace~";
+    private static final String TAG = "trace~";
 
 
     private int progress = 0;
@@ -48,25 +60,44 @@ public class MsgService extends Service {
 
     private Connection _connection = null;
 
-    private Connection getConn() {
-        /*
-        if (_connection != null && !_connection.isClosed()) {
-            return _connection;
-        }
-        */
-
+    private static Object HttpGet(String uri) {
+        StringBuffer buffer = new StringBuffer();
         try {
-            // 连接URL为: jdbc:mysql//服务器地址/数据库名 后面的2个参数分别是登陆用户名和密码
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            _connection = (Connection) DriverManager.getConnection("jdbc:mysql://minutes.catchyrime.com:3306/minutes", "root", "MYSQL_root-132585");
-            return _connection;
-        }
-        catch (Exception ex) {
-            Log.e(TAG, "getConn(): " + ex);
-            return null;
-        }
-    }
+            final String HTTP_HOST = "http://139.199.22.95:8080/minutes";
+            URL url = new URL(HTTP_HOST + uri);
+            HttpURLConnection httpUrlConn = (HttpURLConnection)url.openConnection();
 
+            httpUrlConn.setDoOutput(false);
+            httpUrlConn.setDoInput(true);
+            httpUrlConn.setUseCaches(false);
+            httpUrlConn.setRequestMethod("GET");
+            httpUrlConn.connect();
+
+            InputStream inputStream = httpUrlConn.getInputStream();
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "utf-8");
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            String str = null;
+            while ((str = bufferedReader.readLine()) != null) {
+                buffer.append(str);
+            }
+            bufferedReader.close();
+            inputStreamReader.close();
+            inputStream.close();
+
+            httpUrlConn.disconnect();
+
+            str = buffer.toString();
+            if (str.charAt(0) == '{') {
+                return new JSONObject(str);
+            }
+            else if (str.charAt(0) == '[') {
+                return new JSONArray(str);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "HttpGet: " + e.toString());
+        }
+        return null;
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -96,34 +127,9 @@ public class MsgService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    public static YanCloudGet myFromPackageName(String ip, int maxPort, String[] pkgNames) {
-        for (int port = 1716; port < maxPort; ++port) {
-            try {
-                YanCloudGet ret = new YanCloudGet(ip, port);
-                String processName = ret.get("APIPorter", "getProcessName", (String)null);
-                for (String pkgName: pkgNames) {
-                    if (processName.equals(pkgName)) {
-                        for (int i = 0; i < pkgNames.length; ++i) {
-                            if (pkgNames[i] != pkgName) pkgNames[i] = null;
-                        }
-                        return ret;
-                    }
-                }
-            } catch (Exception var6) {
-                var6.printStackTrace();
-            }
-        }
-        return null;
-    }
-
-
-    public ArrayList<Recommendation> Recommendations = new ArrayList<Recommendation>();
-
-
     private void doBackground()
     {
-        Log.v(TAG,"doBackground!");
-
+        /*
         // Get Current IP
         WifiManager wifiMan = (WifiManager)getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         WifiInfo info = wifiMan.getConnectionInfo();
@@ -137,24 +143,28 @@ public class MsgService extends Service {
             ip = ((ipAddress & 0xFF) + "." + (ipAddress >> 8 & 0xFF) + "." + (ipAddress >> 16 & 0xFF) + "." + (ipAddress >> 24 & 0xFF));
             Log.e(TAG, String.format("Wifi IP: %s", ip));
         }
+        */
+
+    }
 
 
+    private ArrayList<Recommendation> getAll()
+    {
         try {
-            Connection conn = getConn();
-            Log.v(TAG, "MySQL connected");
+            JSONArray array = (JSONArray)HttpGet("/recommendations");
 
-            ArrayList<Recommendation> recommendations = new ArrayList<>();
+            ArrayList<Recommendation> recommendations = new ArrayList<>(array.length());
 
-            Statement st = (Statement)conn.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM recommendation");
-            while (rs.next()) {
+            for (int i = 0; i < array.length(); ++i) {
 
+                JSONObject rs = array.getJSONObject(i);
                 Recommendation rec = new Recommendation();
+
                 rec.DeepLink = rs.getString("deeplink");
                 rec.Source = rs.getString("source");
                 rec.Title = rs.getString("title");
                 rec.Period = rs.getInt("period");
-                rec.DateTime = rs.getDate("datetime");
+                rec.DateTime = Date.valueOf(rs.getString("datetime"));
                 rec.Abstract = rs.getString("abstract");
                 rec.ThumbnailURL = rs.getString("thumbnail");
                 rec.DeepLinkSchema = "";
@@ -163,21 +173,22 @@ public class MsgService extends Service {
                 rec.TopicTag = rs.getString("topic_tag");
                 recommendations.add(rec);
 
-                //Log.v(TAG, rec.DeepLink);
-                //Log.v(TAG, rec.Source);
-                //Log.v(TAG, rec.Title);
-                //Log.v(TAG, Integer.toString(rec.Period));
-                //Log.v(TAG, rec.DateTime.toString());
-                //Log.v(TAG, rec.Abstract);
-                //Log.v(TAG, rec.ThumbnailURL);
-                //Log.v(TAG, rec.DeepLinkSchema);
+                /*
+                Log.v(TAG, rec.DeepLink);
+                Log.v(TAG, rec.Source);
+                Log.v(TAG, rec.Title);
+                Log.v(TAG, Integer.toString(rec.Period));
+                Log.v(TAG, rec.DateTime.toString());
+                Log.v(TAG, rec.Abstract);
+                Log.v(TAG, rec.ThumbnailURL);
+                Log.v(TAG, rec.TopicTag);
+                Log.v(TAG, Integer.toString(rec.TopicLevel));
+                Log.v(TAG, "");
+                */
             }
 
-            // Prepare the recommendations
-            Log.d(TAG, "Do prepareRecommendations");
-            prepareRecommendations(recommendations);
-
-            this.Recommendations = recommendations;
+            Log.v(TAG, "recommendations: total = " + recommendations.size());
+            return recommendations;
 
             /*addTopicTag("fitness", Date.valueOf("2018-5-8"));
             addTopicTag("IslandTravel", Date.valueOf("2017-9-8"));
@@ -190,49 +201,50 @@ public class MsgService extends Service {
             for (Recommendation r: rr) {
                 Log.d(TAG, String.format("[Rec][%d][%s][%s] %s", r.Period, r.TopicTag, r.Source, r.Title));
             }
-
             removeTopicTag("fitness");
             removeTopicTag("IslandTravel");
             removeTopicTag("machine learning");
             removeTopicTag("ArtHistory");*/
-            conn.close();
         }
         catch (Exception ex) {
-            Log.e(TAG, ex.getMessage());
+            ex.printStackTrace();
+            return null;
         }
-
-        //Recommendation rec = getRecommendation(34);
-        //Log.e(TAG, String.format("Recommend: %s(%d min)", rec.Source, rec.Period));
     }
 
-    public ArrayList<Topic> getTopics()
-    {
-        ArrayList<Topic> result = new ArrayList<>();
+    public ArrayList<Topic> getTopics() {
+
         try {
-            Connection conn = getConn();
-            Statement st = (Statement)conn.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM topics");
-            while (rs.next()) {
+            JSONArray array = (JSONArray)HttpGet("/topics");
+
+            ArrayList<Topic> result = new ArrayList<>(array.length());
+            for (int i = 0; i < array.length(); ++i) {
+                JSONObject jTopic = array.getJSONObject(i);
+
                 Topic topic = new Topic();
-                topic.Enable = (rs.getInt("enable") != 0);
-                topic.Count = rs.getInt("count");
-                topic.ViewedCount = rs.getInt("viewed_count");
-                topic.Deadline = rs.getDate("deadline");
-                topic.Priority = rs.getDouble("priority");
-                topic.Tag = rs.getString("topic");
+                topic.Priority = jTopic.getDouble("priority");
+                topic.Tag = jTopic.getString("tag");
+                topic.ViewedCount = jTopic.getInt("viewed_count");
+                topic.Count = jTopic.getInt("count");
+                topic.Enable = (jTopic.getInt("enable") != 0);
+                topic.Deadline = Date.valueOf(jTopic.getString("deadline"));
+                topic.Priority = jTopic.getInt("priority");
 
                 result.add(topic);
             }
-            conn.close();
+
+            return result;
         }
-        catch (Exception ex) {
-            Log.e(TAG, "getTopics: " + ex);
+        catch(Exception ex) {
+            ex.printStackTrace();
+            return null;
         }
-        return result;
     }
 
-    private Topic selectTopic()
-    {
+
+    @Nullable
+    private Topic selectTopic() throws Exception {
+
         ArrayList<Topic> topics = getTopics();
         double sum = 0.0;
         for (Topic topic: topics) {
@@ -261,17 +273,8 @@ public class MsgService extends Service {
     public void addTopicTag(String topic, java.util.Date deadline)
     {
         try {
-            Connection conn = getConn();
-            PreparedStatement stat = (PreparedStatement)conn.prepareStatement("UPDATE topics SET enable = 1, deadline = ? WHERE topic = ?");
-            stat.setDate(1, java.sql.Date.valueOf(deadline.getYear() + "-" + deadline.getMonth() + "-" + deadline.getDay()));
-            stat.setString(2, topic);
-            int updated = stat.executeUpdate();
-
-            CallableStatement cs = (CallableStatement)conn.prepareCall("{CALL UpdateTopic()}");
-            cs.execute();
-            conn.close();
-
-            Log.i(TAG, "AddTopicTag: updated = " + updated);
+            JSONObject r = (JSONObject) HttpGet(String.format("/enable/%s/%s", topic, DateFormat.format("yyyy-MM-dd", deadline)));
+            Log.i(TAG, "AddTopicTag: updated = " + r.getBoolean("success"));
         }
         catch (Exception ex) {
             Log.e(TAG, "AddTopicTag: " + ex.toString());
@@ -282,12 +285,8 @@ public class MsgService extends Service {
     public void removeTopicTag(String topic)
     {
         try {
-            Connection conn = getConn();
-            PreparedStatement stat = (PreparedStatement)conn.prepareStatement("UPDATE topics SET enable = 0 WHERE topic = ?");
-            stat.setString(1, topic);
-            int updated = stat.executeUpdate();
-            Log.i(TAG, "removeTopicTag: updated = " + updated);
-            conn.close();
+            JSONObject r = (JSONObject) HttpGet(String.format("/disable/%s", topic));
+            Log.i(TAG, "removeTopicTag: updated = " + r.getBoolean("success"));
         }
         catch (Exception ex) {
             Log.e(TAG, "removeTopicTag: " + ex.toString());
@@ -296,21 +295,14 @@ public class MsgService extends Service {
 
 
 
-    private void prepareRecommendations(ArrayList<Recommendation> recommendations)
-    {
-        /* This is not OK:
-           Download so many thumbnails in one thread
-        for (Recommendation rec : recommendations) {
-            rec.getThumbnail();
-        }
-        */
-    }
-
     private double getPeriodWeight(int expected, int actual)
     {
         // ASSERT(expected >= actual);
         double rate = (double)(expected - actual) / (double)expected;
-        if (rate >= 0.50) return -10000;  // -infinity
+        if (rate >= 0.50) {
+            if (expected > 5) return -10000;  // -infinity
+            else return -1;
+        }
         if (rate >= 0.30) return 0;
         return Math.cos(Math.PI * rate / 0.6);
     }
@@ -318,33 +310,15 @@ public class MsgService extends Service {
 
     //=============================================================================
 
-    public void markAsViewed(int id)
-    {
-        try {
-            Connection conn = getConn();
-            PreparedStatement stat = (PreparedStatement)conn.prepareStatement("UPDATE recommendation SET viewed = 1 WHERE id = ?");
-            stat.setInt(1, id);
-            int updated = stat.executeUpdate();
-            Log.i(TAG, "markAsViewed: " + id);
-            conn.close();
-        }
-        catch (Exception ex) {
-            Log.e(TAG, "markAsViewed: " + ex.toString());
-        }
-    }
-
     public void markAsViewed(final String url)
     {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Connection conn = getConn();
-                    PreparedStatement stat = (PreparedStatement)conn.prepareStatement("UPDATE recommendation SET viewed = 1 WHERE deeplink = ?");
-                    stat.setString(1, url);
-                    int updated = stat.executeUpdate();
+                    String u = URLEncoder.encode(url, "UTF-8");
+                    HttpGet(String.format("/markAsViewed/%s", u));
                     Log.i(TAG, "markAsViewed: " + url);
-                    conn.close();
                 }
                 catch (Exception ex) {
                     Log.e(TAG, "markAsViewed: " + ex.toString());
@@ -352,21 +326,22 @@ public class MsgService extends Service {
             }
         });
         t.start();
+        /*
         try {
             t.join();
         } catch (InterruptedException e) {
             Log.e(TAG, "markAsViewed: " + e.toString());
         }
+        */
     }
 
 
-    public ArrayList<Recommendation> getRecommendation(int period, int count)
+    public ArrayList<Recommendation> getRecommendation(int period, int count) throws Exception
     {
         Topic topic = selectTopic();
         String tag = (topic == null) ? null : topic.Tag;
         final int TOPIC_RECOMMENDATION_COUNT = 4;
         if (count < TOPIC_RECOMMENDATION_COUNT) {
-
             return getRecommendationInternal(period, count, tag);
         }
         else {
@@ -380,14 +355,18 @@ public class MsgService extends Service {
 
     public ArrayList<Recommendation> getRecommendationInternal(int period, int count, String tagIfTopic)
     {
+        Log.e(TAG, "getRecommendationInternal: tagIfTopic = " + tagIfTopic);
+        boolean tagIfTopicEmpty = (tagIfTopic == null || tagIfTopic.length() == 0);
+
         ArrayList<Recommendation> candidates = new ArrayList<>();
         ArrayList<Double> probability = new ArrayList<>();
 
         double sum = 0;
-        for (Recommendation rec : this.Recommendations) {
-            boolean tagIfTopicEmpty = (tagIfTopic == null || tagIfTopic.length() == 0);
+        for (Recommendation rec : getAll()) {
             boolean recTagEmpty = (rec.TopicTag == null || rec.TopicTag.length() == 0);
+
             if (tagIfTopicEmpty != recTagEmpty) continue;
+
             if (!tagIfTopicEmpty && !Objects.equals(tagIfTopic, rec.TopicTag)) continue;
             if (rec.Period <= period) {
                 double prob = Math.pow((0.3 * getPeriodWeight(period, rec.Period) + 0.7 * rec.getPriority()), 3);
@@ -459,7 +438,11 @@ public class MsgService extends Service {
         new Thread(new Runnable() {
             @Override
             public void run(){
-                returnRec = getRecommendation(time,8);
+                try {
+                    returnRec = getRecommendation(time, 8);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 for(int i = 0; i < 1; i++){
                     returnRec.get(i).getThumbnail();
