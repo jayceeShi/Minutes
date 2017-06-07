@@ -3,39 +3,39 @@
 
     <item
         is-multidex="true"
-        jar="C:\Users\pku_j\AndroidStudioProjects\Software\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="313750a5f33e77ae68fb0c1c4d5c84eb91c55b12">
-        <dex dex="C:\Users\pku_j\AndroidStudioProjects\Software\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_b5aad66e52abec4c7a9aac5a9985ed09df68c3d6\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\pku_j\AndroidStudioProjects\Software\app\src\main\libs\YancloudLib.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="9c200614486ca994267f2c9f380e175192120eb2">
-        <dex dex="C:\Users\pku_j\AndroidStudioProjects\Software\app\build\intermediates\transforms\dex\debug\folders\1000\2\YancloudLib_dfe082de244fd50cfd7807499e9e6a0a4578f584\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\pku_j\AndroidStudioProjects\Software\app\src\main\libs\mysql-connector-java-5.0.8-bin.jar"
+        jar="E:\Minutes\app\src\main\libs\mysql-connector-java-5.0.8-bin.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="7b9bfb6c4e4885660378a9c13330915c321f6cca">
-        <dex dex="C:\Users\pku_j\AndroidStudioProjects\Software\app\build\intermediates\transforms\dex\debug\folders\1000\2\mysql-connector-java-5.0.8-bin_e58f006cb40960505c5bb4d44552214901830f94\classes.dex" />
+        <dex dex="E:\Minutes\app\build\intermediates\transforms\dex\debug\folders\1000\2\mysql-connector-java-5.0.8-bin_91a3e18a94f00d22fb528895745b98deeb8412e6\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\pku_j\AndroidStudioProjects\Software\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jar="E:\Minutes\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="510aa6efc159983dfbffa676a0dae37568c0a46f">
-        <dex dex="C:\Users\pku_j\AndroidStudioProjects\Software\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_5e09081168bb315e6a4cdc2b0d3b304ad897f1b7\classes.dex" />
+        <dex dex="E:\Minutes\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_e38c6d08a99632b3a2abb82d118f298f6892f398\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="E:\Minutes\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c0123ead87b44c9079e1d497cdd4847203cba76c">
+        <dex dex="E:\Minutes\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_9020b9bdf038b22f2ac8878b072bab4b43d47d8d\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="E:\Minutes\app\src\main\libs\YancloudLib.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="9c200614486ca994267f2c9f380e175192120eb2">
+        <dex dex="E:\Minutes\app\build\intermediates\transforms\dex\debug\folders\1000\2\YancloudLib_9ec13ebede42a58564875f3b3a892cb5a0b22475\classes.dex" />
     </item>
 
 </items>
