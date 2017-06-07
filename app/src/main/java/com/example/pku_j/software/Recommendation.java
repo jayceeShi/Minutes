@@ -6,6 +6,7 @@ import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -19,23 +20,40 @@ public class Recommendation {
     public String ThumbnailURL;
     public String DeepLinkSchema;
 
+    public String TopicTag;
+    public int TopicLevel;
+    public int ID;
+
     private Bitmap thumbnail;
 
 
     public double getPriority() {
         switch (this.Source) {
-        case "keep":
-            return 2.0;
-        case "jd":
-            return 1.8;
-        case "youku":
-            return 1.6;
-        case "zhihu":
-            return 1.0;
-        case "toutiao":
-            return 0.8;
-        default:
-            return 0;
+            case "keep":
+                return 1.8;
+            case "jd":
+                return 1.8;
+            case "youku":
+                return 1.6;
+            case "zhihu":
+                return 1.0;
+            case "toutiao":
+                return 0.8;
+            case "douban":
+                return 1.6;
+            case "dzdp":
+                return 1.5;
+            case "wangyi":
+                return 0.8;
+
+            case "wechat":
+                return 1.0;
+            case "xiecheng":
+                return 0.8;
+            case "ximalaya":
+                return 1.6;
+            default:
+                return 0.8;
         }
     }
 
