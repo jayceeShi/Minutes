@@ -64,6 +64,7 @@ public class MsgService extends Service {
         StringBuffer buffer = new StringBuffer();
         try {
             final String HTTP_HOST = "http://139.199.22.95:8080/minutes";
+            //final String HTTP_HOST = "http://10.2.66.152:8080/minutes";
             URL url = new URL(HTTP_HOST + uri);
             HttpURLConnection httpUrlConn = (HttpURLConnection)url.openConnection();
 
@@ -201,7 +202,6 @@ public class MsgService extends Service {
             for (Recommendation r: rr) {
                 Log.d(TAG, String.format("[Rec][%d][%s][%s] %s", r.Period, r.TopicTag, r.Source, r.Title));
             }
-
             removeTopicTag("fitness");
             removeTopicTag("IslandTravel");
             removeTopicTag("machine learning");
@@ -336,8 +336,34 @@ public class MsgService extends Service {
         */
     }
 
-
     public ArrayList<Recommendation> getRecommendation(int period, int count) throws Exception
+    {
+        JSONArray array = (JSONArray)HttpGet(String.format("/query/%d/%d", period, count));
+        ArrayList<Recommendation> recommendations = new ArrayList<>(array.length());
+
+        for (int i = 0; i < array.length(); ++i) {
+            JSONObject rs = array.getJSONObject(i);
+            Recommendation rec = new Recommendation();
+
+            rec.DeepLink = rs.getString("deeplink");
+            rec.Source = rs.getString("source");
+            rec.Title = rs.getString("title");
+            rec.Period = rs.getInt("period");
+            rec.DateTime = Date.valueOf(rs.getString("datetime"));
+            rec.Abstract = rs.getString("abstract");
+            rec.ThumbnailURL = rs.getString("thumbnail");
+            rec.DeepLinkSchema = "";
+            rec.ID = rs.getInt("id");
+            rec.TopicLevel = rs.getInt("topic_level");
+            rec.TopicTag = rs.getString("topic_tag");
+            recommendations.add(rec);
+        }
+
+        return recommendations;
+    }
+
+
+    public ArrayList<Recommendation> getRecommendationOld(int period, int count) throws Exception
     {
         Topic topic = selectTopic();
         String tag = (topic == null) ? null : topic.Tag;

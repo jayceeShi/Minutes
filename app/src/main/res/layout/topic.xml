@@ -273,10 +273,12 @@
         android:id="@+id/checkBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/leftM"
+        android:layout_below="@+id/time1"
         android:layout_marginTop="24dp"
         android:text="每天"
-        android:layout_below="@+id/time1"
-        android:layout_alignStart="@+id/leftM" />
+        android:theme="@style/MyCheckBox"
+        android:textColorLink="#bca590" />
 
     <ImageView
         android:id="@+id/createT"
@@ -293,7 +295,7 @@
         android:layout_height="25dp"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="15dp"
         android:layout_toStartOf="@+id/created"
         app:srcCompat="@drawable/left" />
 

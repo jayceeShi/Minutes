@@ -22,7 +22,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="290dp"
-        android:background="@drawable/back" />
+        />
 
     <ImageView
         android:id="@+id/display"
@@ -96,7 +96,6 @@
         android:id="@+id/Menu"
         android:layout_width="65dp"
         android:layout_height="48dp"
-        android:layout_alignBottom="@+id/title"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:layout_marginRight="0dp"
@@ -119,7 +118,7 @@
         android:layout_marginLeft="0dp"
         android:layout_marginRight="8dp"
         android:background="#ffffff"
-        android:text="waiting"
+        android:text=""
         android:textAlignment="center" />
 
     <SlidingDrawer
